@@ -48,6 +48,10 @@ public class Book {
     @Cascade({CascadeType.SAVE_UPDATE})
     private List<BookImport> bookImportRecords;
     
+    @OneToMany(mappedBy = "book")
+    @Cascade({CascadeType.SAVE_UPDATE})
+    private List<BookRentReceipt> bookRentReceipts;
+    
     public Book() {}
 
     public Book(String name, int type, String author, Date publishYear,
@@ -131,6 +135,14 @@ public class Book {
 
     public void setBookImportRecords(List<BookImport> bookImportRecords) {
         this.bookImportRecords = bookImportRecords;
+    }
+
+    public List<BookRentReceipt> getBookRentReceipts() {
+        return bookRentReceipts;
+    }
+
+    public void setBookRentReceipts(List<BookRentReceipt> bookRentReceipts) {
+        this.bookRentReceipts = bookRentReceipts;
     }
 
     @Override

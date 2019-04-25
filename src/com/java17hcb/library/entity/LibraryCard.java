@@ -1,6 +1,8 @@
 package com.java17hcb.library.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
@@ -49,6 +52,10 @@ public class LibraryCard {
     @Cascade({CascadeType.SAVE_UPDATE})
     @JoinColumn(name="CREATED_BY")
     private Staff createdBy;
+    
+    @OneToMany(mappedBy="card")
+    @Cascade({CascadeType.SAVE_UPDATE})
+    private List<RentReceipt> rentReceipts;
     
     public LibraryCard() {}
     
@@ -145,11 +152,28 @@ public class LibraryCard {
         this.createdBy = createdBy;
     }
 
+    public List<RentReceipt> getRentReceipts() {
+        return rentReceipts;
+    }
+
+    public void setRentReceipts(List<RentReceipt> rentReceipts) {
+        this.rentReceipts = rentReceipts;
+    }
+    
     @Override
     public String toString() {
         return "LibraryCard{" + "id=" + id + ", fullName=" + fullName + ", type=" 
                 + type + ", dateOfBirth=" + dateOfBirth + ", address=" + address 
                 + ", email=" + email + ", createDate=" + createDate + ", expireDate=" 
-                + expireDate + ", finesFee=" + finesFee + ", createdBy=" + createdBy + '}';
+                + expireDate + ", finesFee=" + finesFee + ", createdBy=" + createdBy
+                + ", rentReceipts=" + rentReceipts + "}";
+    }
+    
+    public void addRentReceipt(RentReceipt rentReceipt){
+        if(this.rentReceipts == null){
+            this.rentReceipts = new ArrayList<>();
+        }
+        this.rentReceipts.add(rentReceipt);
+        rentReceipt.setCard(this);
     }
 }

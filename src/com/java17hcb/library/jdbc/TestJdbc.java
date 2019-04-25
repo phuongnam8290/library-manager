@@ -2,9 +2,13 @@ package com.java17hcb.library.jdbc;
 
 import com.java17hcb.library.entity.Book;
 import com.java17hcb.library.entity.BookImport;
+import com.java17hcb.library.entity.BookRentReceipt;
 import com.java17hcb.library.entity.LibraryCard;
+import com.java17hcb.library.entity.RentReceipt;
+import com.java17hcb.library.entity.ReturnReceipt;
 import com.java17hcb.library.entity.Staff;
 import java.util.Date;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -17,6 +21,9 @@ public class TestJdbc {
                                     .addAnnotatedClass(Book.class)
                                     .addAnnotatedClass(BookImport.class)
                                     .addAnnotatedClass(LibraryCard.class)
+                                    .addAnnotatedClass(RentReceipt.class)
+                                    .addAnnotatedClass(BookRentReceipt.class)
+                                    .addAnnotatedClass(ReturnReceipt.class)
                                     .buildSessionFactory();
             
             Session session = factory.getCurrentSession();
@@ -44,7 +51,7 @@ public class TestJdbc {
                 bookImportRecord.setImportDate(new Date());
                 bookImportRecord.setCopy(5);
                 
-                staff.importBook(bookImportRecord);*/
+                staff.importBook(bookImportRecord);
 
                 
                 
@@ -56,6 +63,31 @@ public class TestJdbc {
                 staff.createCard(card);*/         
                 
                 
+                
+                /*LibraryCard card = session.get(LibraryCard.class, 2);
+                Book book1 = session.get(Book.class, 31);
+                Book book2 = session.get(Book.class, 32);
+                
+                RentReceipt receipt = new RentReceipt(card, new Date(), 0);
+                BookRentReceipt record1 = new BookRentReceipt(receipt, book1);
+                BookRentReceipt record2 = new BookRentReceipt(receipt, book2);
+                
+                card.addRentReceipt(receipt);
+                receipt.addBookToReceipt(record1);
+                receipt.addBookToReceipt(record2);*/
+                
+                
+                
+                /*RentReceipt receipt = session.get(RentReceipt.class, 4);
+                List<BookRentReceipt> records = receipt.getBookRentReceipts();*/
+                
+                
+                
+                /*RentReceipt rentReceipt = session.get(RentReceipt.class, 4);
+                ReturnReceipt returnReceipt = new ReturnReceipt(rentReceipt);
+                returnReceipt.setLateFee(0);
+                returnReceipt.setLostFee(0);
+                session.save(returnReceipt);*/
                 
                 session.getTransaction().commit();
             } catch (Exception e){

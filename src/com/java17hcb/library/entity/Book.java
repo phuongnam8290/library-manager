@@ -52,8 +52,15 @@ public class Book {
     @Cascade({CascadeType.SAVE_UPDATE})
     private List<BookRentReceipt> bookRentReceipts;
     
+    @OneToMany(mappedBy = "book")
+    @Cascade({CascadeType.SAVE_UPDATE})
+    private List<LostHistory> lostHistory;
     public Book() {}
-
+    
+    @OneToMany(mappedBy = "book")
+    @Cascade({CascadeType.SAVE_UPDATE})
+    private List<LiquidateHistory> liquidateHistory;
+    
     public Book(String name, int type, String author, Date publishYear,
             String publisher, long price, int remainCopy) {
         this.name = name;
@@ -145,6 +152,22 @@ public class Book {
         this.bookRentReceipts = bookRentReceipts;
     }
 
+    public List<LostHistory> getLostHistory() {
+        return lostHistory;
+    }
+
+    public void setLostHistory(List<LostHistory> lostHistory) {
+        this.lostHistory = lostHistory;
+    }
+
+    public List<LiquidateHistory> getLiquidateHistory() {
+        return liquidateHistory;
+    }
+
+    public void setLiquidateHistory(List<LiquidateHistory> liquidateHistory) {
+        this.liquidateHistory = liquidateHistory;
+    }
+    
     @Override
     public String toString() {
         return "Book{" + "id=" + id + ", name=" + name + ", type=" + type + ", author=" 
@@ -158,5 +181,19 @@ public class Book {
             this.bookImportRecords = new ArrayList<>();
         }
         this.bookImportRecords.add(record);
+    }
+    
+    public void addLostRecord(LostHistory record){
+        if(this.lostHistory == null) {
+            this.lostHistory = new ArrayList<>();
+        }
+        this.lostHistory.add(record);
+    }
+    
+    public void addLiquidateRecord(LiquidateHistory record){
+        if(this.liquidateHistory == null) {
+            this.liquidateHistory = new ArrayList<>();
+        }
+        this.liquidateHistory.add(record);
     }
 }

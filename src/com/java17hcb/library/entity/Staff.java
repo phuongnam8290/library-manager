@@ -59,6 +59,19 @@ public class Staff {
     @Cascade({CascadeType.SAVE_UPDATE})
     private List<LibraryCard> listCreatedCards;
     
+    @OneToMany(mappedBy = "recordedBy")
+    @Cascade({CascadeType.SAVE_UPDATE})
+    private List<LostHistory> lostBookRecorded;
+    
+    
+    @OneToMany(mappedBy = "liquidateBy")
+    @Cascade({CascadeType.SAVE_UPDATE})
+    private List<LiquidateHistory> liquidateHistory;
+    
+    @OneToMany(mappedBy = "takedBy")
+    @Cascade({CascadeType.SAVE_UPDATE})
+    private List<FinesReceipt> finesReceipts;
+    
     public Staff() {}
 
     public Staff(String username, String password, String fullName,
@@ -170,6 +183,30 @@ public class Staff {
     public void setListCreatedCards(List<LibraryCard> listCreatedCards) {
         this.listCreatedCards = listCreatedCards;
     }
+
+    public List<LostHistory> getLostBookRecorded() {
+        return lostBookRecorded;
+    }
+
+    public void setLostBookRecorded(List<LostHistory> lostBookRecorded) {
+        this.lostBookRecorded = lostBookRecorded;
+    }
+
+    public List<LiquidateHistory> getLiquidateHistory() {
+        return liquidateHistory;
+    }
+
+    public void setLiquidateHistory(List<LiquidateHistory> liquidateHistory) {
+        this.liquidateHistory = liquidateHistory;
+    }
+
+    public List<FinesReceipt> getFinesReceipts() {
+        return finesReceipts;
+    }
+
+    public void setFinesReceipts(List<FinesReceipt> finesReceipts) {
+        this.finesReceipts = finesReceipts;
+    }
     
     @Override
     public String toString() {
@@ -193,5 +230,27 @@ public class Staff {
         }
         this.listCreatedCards.add(card);
         card.setCreatedBy(this);
+    }
+    
+    public void addLostRecord(LostHistory record){
+        if(this.lostBookRecorded == null){
+            this.lostBookRecorded = new ArrayList<>();
+        }
+        this.lostBookRecorded.add(record);
+        record.setRecordBy(this);
+    }
+    
+    public void addLiquidateRecord(LiquidateHistory record){
+        if(this.liquidateHistory == null) {
+            this.liquidateHistory = new ArrayList<>();
+        }
+        this.liquidateHistory.add(record);
+    }
+    
+    public void addFinesReceipt(FinesReceipt receipt){
+        if(this.finesReceipts == null) {
+            this.finesReceipts = new ArrayList<>();
+        }
+        this.finesReceipts.add(receipt);
     }
 }

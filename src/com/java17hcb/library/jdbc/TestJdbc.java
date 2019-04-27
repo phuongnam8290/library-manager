@@ -3,7 +3,10 @@ package com.java17hcb.library.jdbc;
 import com.java17hcb.library.entity.Book;
 import com.java17hcb.library.entity.BookImport;
 import com.java17hcb.library.entity.BookRentReceipt;
+import com.java17hcb.library.entity.FinesReceipt;
 import com.java17hcb.library.entity.LibraryCard;
+import com.java17hcb.library.entity.LiquidateHistory;
+import com.java17hcb.library.entity.LostHistory;
 import com.java17hcb.library.entity.RentReceipt;
 import com.java17hcb.library.entity.ReturnReceipt;
 import com.java17hcb.library.entity.Staff;
@@ -24,6 +27,9 @@ public class TestJdbc {
                                     .addAnnotatedClass(RentReceipt.class)
                                     .addAnnotatedClass(BookRentReceipt.class)
                                     .addAnnotatedClass(ReturnReceipt.class)
+                                    .addAnnotatedClass(LostHistory.class)
+                                    .addAnnotatedClass(LiquidateHistory.class)
+                                    .addAnnotatedClass(FinesReceipt.class)
                                     .buildSessionFactory();
             
             Session session = factory.getCurrentSession();
@@ -88,6 +94,28 @@ public class TestJdbc {
                 returnReceipt.setLateFee(0);
                 returnReceipt.setLostFee(0);
                 session.save(returnReceipt);*/
+                
+                
+                
+                /*Book book = session.get(Book.class, 32);
+                LibraryCard card = session.get(LibraryCard.class, 2);
+                Staff staff = session.get(Staff.class, 1);
+                LostHistory lostHistory = new LostHistory(book, card, staff, new Date(), book.getPrice());
+                session.save(lostHistory);*/
+                
+                
+                
+                /*Book book = session.get(Book.class, 32);
+                Staff staff = session.get(Staff.class, 1);
+                LiquidateHistory liquidateHistory = new LiquidateHistory(book, staff, new Date(), "TEST", 5);
+                session.save(liquidateHistory);*/
+                
+                
+                
+                Staff staff = session.get(Staff.class, 1);
+                LibraryCard card = session.get(LibraryCard.class, 2);
+                FinesReceipt finesReceipt = new FinesReceipt(staff, card, card.getFinesFee(), 50000);
+                session.save(finesReceipt);
                 
                 session.getTransaction().commit();
             } catch (Exception e){

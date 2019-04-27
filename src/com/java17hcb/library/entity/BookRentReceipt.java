@@ -15,6 +15,12 @@ import javax.persistence.Table;
 @Table(name="book_rent_receipt")
 public class BookRentReceipt {
     
+    public static class Status{
+        public static final int NOT_RETURN = 0;
+        public static final int RETURNED = 1;
+        public static final int LOSTED = 1;
+    }
+    
     @EmbeddedId
     private BookRentReceiptPK bookRentReceiptPK = new BookRentReceiptPK();
     

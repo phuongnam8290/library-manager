@@ -18,7 +18,31 @@ import org.hibernate.annotations.CascadeType;
 @Entity
 @Table(name = "staff")
 public class Staff {
-
+    
+    public static class Diploma{
+        public static final int TU_TAI = 0;
+        public static final int TRUNG_CAP = 1;
+        public static final int CAO_DANG = 2;
+        public static final int DAI_HOC = 3;
+        public static final int THAC_SI = 4;
+        public static final int TIEN_SI = 5;
+    }
+    
+    public static class Division{
+        public static final int THU_THU = 0;
+        public static final int THU_KHO = 1;
+        public static final int THU_QUY = 2;
+        public static final int BAN_GIAM_DOC = 3;
+    }
+    
+    public static class Position{
+        public static final int GIAM_DOC = 0;
+        public static final int PHO_GIAM_DOC = 1;
+        public static final int TRUONG_PHONG = 2;
+        public static final int PHO_PHONG = 3;
+        public static final int NHAN_VIEN = 4;       
+    }
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")

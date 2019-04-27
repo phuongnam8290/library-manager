@@ -19,6 +19,12 @@ import org.hibernate.annotations.CascadeType;
 @Entity
 @Table(name="library_card")
 public class LibraryCard {
+    
+    public static class Type{
+        public static final int X = 0;
+        public static final int Y = 1;
+    }
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID")

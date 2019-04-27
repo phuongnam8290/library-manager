@@ -18,6 +18,14 @@ import org.hibernate.annotations.CascadeType;
 @Entity
 @Table(name="book")
 public class Book {
+    
+    public static class Type{
+        public static final int A = 0;
+        public static final int B = 1;
+        public static final int C = 2;
+    }
+    
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")

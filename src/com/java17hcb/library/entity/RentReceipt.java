@@ -19,6 +19,12 @@ import org.hibernate.annotations.CascadeType;
 @Entity
 @Table(name="rent_receipt")
 public class RentReceipt {
+    
+    public static class Status{
+        public static final int NOT_RETURN = 0;
+        public static final int RETURNED = 1;
+    }
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID")

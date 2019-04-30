@@ -32,10 +32,7 @@ public class TestJdbc {
                                     .addAnnotatedClass(FinesReceipt.class)
                                     .buildSessionFactory();
             
-            Session session = factory.getCurrentSession();
-            
-            int test = Staff.Diploma.CAODANG;
-            
+            Session session = factory.getCurrentSession();            
             try{
                 session.beginTransaction();
                 

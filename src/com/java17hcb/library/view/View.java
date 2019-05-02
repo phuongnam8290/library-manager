@@ -1,6 +1,8 @@
 package com.java17hcb.library.view;
 
+import com.java17hcb.library.bus.BusLibraryCard;
 import com.java17hcb.library.bus.BusStaff;
+import com.java17hcb.library.entity.LibraryCard;
 import com.java17hcb.library.entity.Staff;
 import com.java17hcb.library.utils.CurrentStaff;
 import java.text.ParseException;
@@ -16,7 +18,7 @@ public class View {
         if(staff != null){
             CurrentStaff.setCurrentStaff(staff);
             
-            String dateInString = "22/12/1990"; 
+            /*String dateInString = "22/12/1990"; 
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             Date dateOfBirth = formatter.parse(dateInString);
             
@@ -32,7 +34,19 @@ public class View {
             String message = BusStaff.getInstance().createStaff(newUsername, newPassword, fullName, 
                                             dateOfBirth, diploma, position, division, 
                                             address, phone);
-            System.out.println(message);
+            System.out.println(message);*/
+            
+            String fullName = "Tuấn Anh";
+            int type = LibraryCard.Type.X;
+            String address = "12 Nguyễn Văn Cừ";
+            String email = "example@gmail.com";
+            Date createDate = new Date();
+            
+            String dateInString = "15/8/1980";
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            Date dateOfBirth = formatter.parse(dateInString);
+            
+            System.out.println(BusLibraryCard.getInstance().createLibraryCard(fullName, type, dateOfBirth, address, email, createDate));
         }
     }
 }

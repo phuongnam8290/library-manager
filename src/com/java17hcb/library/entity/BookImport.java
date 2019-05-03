@@ -2,27 +2,31 @@ package com.java17hcb.library.entity;
 
 import java.util.Date;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.Table;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name="book_import")
 public class BookImport {
-    
-    @EmbeddedId
-    private BookImportPK bookImportPK = new BookImportPK();
+        
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="ID")
+    private int id;
     
     @ManyToOne
-    @MapsId("staffId")
     @JoinColumn(name="IMPORT_BY")
     private Staff importBy;
     
     @ManyToOne
-    @MapsId("bookId")
+    @Cascade({CascadeType.SAVE_UPDATE})
     @JoinColumn(name="BOOK_ID")
     private Book importedBook;
     
@@ -39,14 +43,14 @@ public class BookImport {
         this.importedBook = importedBook;
     }
     
-    public BookImportPK getBookImportPK() {
-        return bookImportPK;
+    public int getId() {
+        return id;
     }
 
-    public void setBookImportPK(BookImportPK bookImportPK) {
-        this.bookImportPK = bookImportPK;
+    public void setId(int id) {
+        this.id = id;
     }
-
+    
     public Staff getImportBy() {
         return importBy;
     }

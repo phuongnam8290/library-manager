@@ -1,5 +1,6 @@
 package com.java17hcb.library.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +18,7 @@ import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "staff")
-public class Staff {
+public class Staff implements Serializable{
     
     public static class Diploma{
         public static final int TU_TAI = 0;

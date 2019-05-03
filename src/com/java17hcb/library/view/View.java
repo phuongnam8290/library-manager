@@ -1,7 +1,9 @@
 package com.java17hcb.library.view;
 
+import com.java17hcb.library.bus.BusBook;
 import com.java17hcb.library.bus.BusLibraryCard;
 import com.java17hcb.library.bus.BusStaff;
+import com.java17hcb.library.entity.Book;
 import com.java17hcb.library.entity.LibraryCard;
 import com.java17hcb.library.entity.Staff;
 import com.java17hcb.library.utils.CurrentStaff;
@@ -11,8 +13,8 @@ import java.util.Date;
 
 public class View {
     public static void main(String... args) throws ParseException{
-        String username = "lantis02807";
-        String password = "Azure020890";
+        String username = "1742038";
+        String password = "123";
         
         Staff staff = BusStaff.getInstance().login(username, password);
         if(staff != null){
@@ -36,7 +38,9 @@ public class View {
                                             address, phone);
             System.out.println(message);*/
             
-            String fullName = "Tuấn Anh";
+            
+            
+            /*String fullName = "Tuấn Anh";
             int type = LibraryCard.Type.X;
             String address = "12 Nguyễn Văn Cừ";
             String email = "example@gmail.com";
@@ -46,7 +50,23 @@ public class View {
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             Date dateOfBirth = formatter.parse(dateInString);
             
-            System.out.println(BusLibraryCard.getInstance().createLibraryCard(fullName, type, dateOfBirth, address, email, createDate));
+            System.out.println(BusLibraryCard.getInstance().createLibraryCard(fullName, type, dateOfBirth, address, email, createDate));*/
+            
+            
+            
+            String name = "C++ Primer";
+            String author = "Stanley B. Lippman, Josée Lajoie, Barbara E. Moo";
+            int type = Book.Type.B;
+            
+            String publishYearString = "12/9/2015";
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            Date publishYear = formatter.parse(publishYearString);
+            
+            String publisher = "Pearson";
+            long price = 300000;
+            int copies = 5;
+            
+            System.out.println(BusBook.getInstance().importBook(name, type, author, publishYear, publisher, price, copies));
         }
     }
 }

@@ -4,13 +4,17 @@ import com.java17hcb.library.entity.Book;
 import com.java17hcb.library.entity.BookRentReceipt;
 import com.java17hcb.library.entity.LibraryCard;
 import com.java17hcb.library.entity.RentReceipt;
+import com.java17hcb.library.entity.ReturnReceipt;
 import com.java17hcb.library.entity.Staff;
 import com.java17hcb.library.utils.CurrentStaff;
 import com.java17hcb.library.utils.HibernateUtil;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -133,29 +137,30 @@ public class DaoLibraryCard {
         Session session = sessionFactory.getCurrentSession();
         
         try{
-            session.beginTransaction();
-            LibraryCard card = session.get(LibraryCard.class, libraryCardId);
-            List<Book> books = new ArrayList<>();
-        
-            if (card == null){
+        session.beginTransaction();
+        LibraryCard card = session.get(LibraryCard.class, libraryCardId);
+        List<Book> books = new ArrayList<>();
+
+        if (card == null){
+            return false;
+        }
+        for(int bookId : bookIds){
+            Book book = session.get(Book.class, bookId);
+            if(book == null || book.getRemainCopy() <= 0) {
                 return false;
-            }
-            for(int bookId : bookIds){
-                Book book = session.get(Book.class, bookId);
-                if(book == null) {
-                    return false;
-                } else{
-                    books.add(book);
-                }            
-            }
-            
-            RentReceipt receipt = new RentReceipt(card, new Date());
-            card.addRentReceipt(receipt);
-            
-            for(Book book : books){
-                BookRentReceipt record = new BookRentReceipt(receipt, book);
-                receipt.addBookToReceipt(record);
-            }           
+            } else{
+                book.setRemainCopy(book.getRemainCopy() - 1);
+                books.add(book);
+            }            
+        }
+
+        RentReceipt receipt = new RentReceipt(card, new Date());
+        card.addRentReceipt(receipt);
+
+        for(Book book : books){
+            BookRentReceipt record = new BookRentReceipt(receipt, book);
+            receipt.addBookToReceipt(record);
+        }           
         session.getTransaction().commit();    
         return true;
         } catch(Exception e){
@@ -164,5 +169,79 @@ public class DaoLibraryCard {
         } finally {
             session.close();
         }        
+    }
+
+    public boolean returnBook(int libraryCardId, List<Integer> returnBookIds, List<Integer> lostBookIds) {
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.getCurrentSession();
+        
+        try{
+        session.beginTransaction();
+        LibraryCard card = session.get(LibraryCard.class, libraryCardId);
+        ReturnReceipt returnReceipt = new ReturnReceipt();
+        List<BookRentReceipt> currentRentBook = new ArrayList<>();
+        
+        for(RentReceipt receipt : card.getRentReceipts()){
+            for(BookRentReceipt record : receipt.getBookRentReceipts()){
+                if(record.getStatus() == BookRentReceipt.Status.NOT_RETURN)
+                    currentRentBook.add(record);
+            }
+        }
+        
+        Stream<BookRentReceipt> returnBookStream = currentRentBook.stream().filter(c -> returnBookIds.contains(c.getBook().getId()));
+        Stream<BookRentReceipt> lostBookStream = currentRentBook.stream().filter(c -> lostBookIds.contains(c.getBook().getId()));
+        
+        List<BookRentReceipt> returnBook = getArrayListFromStream(returnBookStream);
+        List<BookRentReceipt> lostBook = getArrayListFromStream(lostBookStream);
+        
+        for(BookRentReceipt record : returnBook){
+            record.setStatus(BookRentReceipt.Status.RETURNED);
+            Book book = record.getBook();
+            book.setRemainCopy(book.getRemainCopy() + 1);
+            returnReceipt.addBookToReceipt(record);
+            returnReceipt.setLateFee(returnReceipt.getLateFee() + calculateLateFee(record));
+        }
+        
+        for(BookRentReceipt record : lostBook){
+            record.setStatus(BookRentReceipt.Status.LOSTED);
+            returnReceipt.addBookToReceipt(record);
+            returnReceipt.setLostFee(returnReceipt.getLostFee() + record.getBook().getPrice());
+        }
+        
+        card.setFinesFee(card.getFinesFee() + returnReceipt.getLateFee() + returnReceipt.getLostFee());
+        session.save(returnReceipt);
+        session.getTransaction().commit();    
+        return true;
+        } catch(Exception e){
+            e.printStackTrace();
+            return false;
+        } finally {
+            session.close();
+        }        
+    }
+    
+    private static <T> ArrayList<T> getArrayListFromStream(Stream<T> stream) 
+    { 
+        // Convert the Stream to List 
+        List<T> list = stream.collect(Collectors.toList()); 
+  
+        // Create an ArrayList of the List 
+        ArrayList<T> arrayList = new ArrayList<T>(list); 
+  
+        // Return the ArrayList 
+        return arrayList; 
+    }
+    
+    public static final long LATE_FEE_PER_DAY = 1000;
+    private static long calculateLateFee(BookRentReceipt record){
+        Calendar rentDate = Calendar.getInstance();
+        Calendar returnDate = Calendar.getInstance();
+        
+        rentDate.setTime(record.getRentReceipt().getRentDate());
+        long daysBetween = ChronoUnit.DAYS.between(rentDate.toInstant(), returnDate.toInstant()); 
+        if(daysBetween <= 4)
+            return 0;
+        else
+            return (daysBetween - 4) * LATE_FEE_PER_DAY;
     }
 }

@@ -33,11 +33,11 @@ public class DaoBook {
             Staff staff = session.find(Staff.class, CurrentStaff.getCurrentStaff().getId());
             Book book;
             
-            String sql = "FROM Book B "
-                    + "WHERE B.name = :name ";
+            String hql = "FROM Book B "
+                    + "WHERE B.title = :title ";
             
-            Query query = session.createQuery(sql);
-            query.setParameter("name", importedBook.getName());
+            Query query = session.createQuery(hql);
+            query.setParameter("title", importedBook.getTitle());
             
             try{
                 book = (Book)(query.getSingleResult());
@@ -79,5 +79,32 @@ public class DaoBook {
         } finally {
             session.close();
         }        
+    }
+    
+    public Book findBookByTitle(String title){
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.getCurrentSession();
+        
+        try{
+            session.beginTransaction();           
+            String hql = "FROM Book B "
+                    + "WHERE B.title = :name ";
+            
+            Query query = session.createQuery(hql);
+            query.setParameter("title", title);
+            
+            try{
+                return (Book)(query.getSingleResult());
+                
+            } catch(NoResultException e){
+                e.printStackTrace();
+                return null;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }
     }
 }

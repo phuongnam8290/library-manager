@@ -1,11 +1,9 @@
 package com.java17hcb.library.bus;
 
 import com.java17hcb.library.dao.DaoLibraryCard;
-import com.java17hcb.library.entity.Book;
 import com.java17hcb.library.entity.LibraryCard;
 import com.java17hcb.library.entity.Staff;
 import com.java17hcb.library.utils.CurrentStaff;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -78,5 +76,9 @@ public class BusLibraryCard {
      */
     public boolean rentBooks(int libraryCardId, List<Integer> bookIds){
         return DaoLibraryCard.getInstance().rentBooks(libraryCardId, bookIds);
+    }
+    
+    public boolean returnBook(int libraryCardId, List<Integer> returnBookIds, List<Integer> lostBookIds){
+        return DaoLibraryCard.getInstance().returnBook(libraryCardId, returnBookIds, lostBookIds);
     }
 }

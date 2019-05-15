@@ -26,7 +26,7 @@ public class ReturnReceipt {
     private int id;
     
     @Column(name="RETURN_DATE")
-    private Date returnDate;
+    private Date returnDate = new Date();
     
     @Column(name="LATE_FEE")
     private long lateFee;
@@ -34,9 +34,9 @@ public class ReturnReceipt {
     @Column(name="LOST_FEE")
     private long lostFee;
     
-    @ManyToOne
-    @JoinColumn(name="RENT_RECEIPT_ID")
-    private RentReceipt rentReceipt;
+//    @ManyToOne
+//    @JoinColumn(name="RENT_RECEIPT_ID")
+//    private RentReceipt rentReceipt;
 
     @OneToMany(mappedBy="returnReceipt")
     @Cascade({CascadeType.SAVE_UPDATE})
@@ -44,10 +44,10 @@ public class ReturnReceipt {
     
     public ReturnReceipt() {}
 
-    public ReturnReceipt(RentReceipt rentReceipt) {
-        this.rentReceipt = rentReceipt;
-        this.returnDate = new Date();
-    }
+//    public ReturnReceipt(RentReceipt rentReceipt) {
+//        this.rentReceipt = rentReceipt;
+//        this.returnDate = new Date();
+//    }
 
     public int getId() {
         return id;
@@ -81,13 +81,13 @@ public class ReturnReceipt {
         this.lostFee = lostFee;
     }
 
-    public RentReceipt getRentReceipt() {
-        return rentReceipt;
-    }
-
-    public void setRentReceipt(RentReceipt rentReceipt) {
-        this.rentReceipt = rentReceipt;
-    }
+//    public RentReceipt getRentReceipt() {
+//        return rentReceipt;
+//    }
+//
+//    public void setRentReceipt(RentReceipt rentReceipt) {
+//        this.rentReceipt = rentReceipt;
+//    }
 
     public List<BookRentReceipt> getBookRentReceipts() {
         return bookRentReceipts;
@@ -100,7 +100,7 @@ public class ReturnReceipt {
     @Override
     public String toString() {
         return "ReturnReceipt{" + "id=" + id + ", returnDate=" + returnDate + ", lateFee=" 
-                + lateFee + ", lostFee=" + lostFee + ", rentReceipt=" + rentReceipt + '}';
+                + lateFee + ", lostFee=" + lostFee + /*", rentReceipt=" + rentReceipt*/ + '}';
     }
     
     public void addBookToReceipt(BookRentReceipt record){
@@ -108,5 +108,6 @@ public class ReturnReceipt {
             this.bookRentReceipts = new ArrayList();
         }
         this.bookRentReceipts.add(record);
+        record.setReturnReceipt(this);
     }
 }

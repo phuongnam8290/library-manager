@@ -35,9 +35,9 @@ public class RentReceipt {
     @Cascade({CascadeType.SAVE_UPDATE})
     private List<BookRentReceipt> bookRentReceipts;
     
-    @OneToMany(mappedBy = "rentReceipt")
-    @Cascade({CascadeType.SAVE_UPDATE})
-    private List<ReturnReceipt> returnReceipts;
+//    @OneToMany(mappedBy = "rentReceipt")
+//    @Cascade({CascadeType.SAVE_UPDATE})
+//    private List<ReturnReceipt> returnReceipts;
 
     public RentReceipt() {}
 
@@ -78,13 +78,13 @@ public class RentReceipt {
         this.id = id;
     }
 
-    public List<ReturnReceipt> getReturnReceipts() {
-        return returnReceipts;
-    }
-
-    public void setReturnReceipts(List<ReturnReceipt> returnReceipts) {
-        this.returnReceipts = returnReceipts;
-    }
+//    public List<ReturnReceipt> getReturnReceipts() {
+//        return returnReceipts;
+//    }
+//
+//    public void setReturnReceipts(List<ReturnReceipt> returnReceipts) {
+//        this.returnReceipts = returnReceipts;
+//    }
     
     @Override
     public String toString() {

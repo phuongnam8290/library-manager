@@ -56,7 +56,7 @@ public class View {
             
             
             
-            String name = "C++ Primer";
+            String title = "C++ Primer";
             String author = "Stanley B. Lippman, Josée Lajoie, Barbara E. Moo";
             int type = Book.Type.B;
             
@@ -68,18 +68,28 @@ public class View {
             long price = 300000;
             int copies = 5;
             
-            System.out.println(BusBook.getInstance().importBook(name, type, author, publishYear, publisher, price, copies));*/
+            System.out.println(BusBook.getInstance().importBook(title, type, author, publishYear, publisher, price, copies));*/
             
             
             /*List<Integer> bookIds = new ArrayList<>();
-            bookIds.add(31);
-            bookIds.add(34);           
+            bookIds.add(32);
+            bookIds.add(35);           
             System.out.println(BusLibraryCard.getInstance().rentBooks(2, bookIds));*/
             
             
             
+            //System.out.println(BusLibraryCard.getInstance().checkRentStatus(2));
             
-            System.out.println(BusLibraryCard.getInstance().checkRentStatus(2));
+            
+            
+            List<Integer> returnBookIds = new ArrayList<>();
+            returnBookIds.add(31);
+            returnBookIds.add(34);
+            
+            List<Integer> lostBookIds = new ArrayList<>();
+            lostBookIds.add(32);
+            
+            System.out.println(BusLibraryCard.getInstance().returnBook(2, returnBookIds, lostBookIds));
         }
     }
 }

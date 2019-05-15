@@ -31,8 +31,8 @@ public class Book {
     @Column(name = "ID")
     private int id;
 
-    @Column(name = "NAME")
-    private String name;
+    @Column(name = "TITLE")
+    private String title;
 
     @Column(name = "TYPE")
     private int type;
@@ -69,9 +69,9 @@ public class Book {
     @Cascade({CascadeType.SAVE_UPDATE})
     private List<LiquidateHistory> liquidateHistory;
     
-    public Book(String name, int type, String author, Date publishYear,
+    public Book(String title, int type, String author, Date publishYear,
             String publisher, long price, int remainCopy) {
-        this.name = name;
+        this.title = title;
         this.type = type;
         this.author = author;
         this.publishYear = publishYear;
@@ -88,12 +88,12 @@ public class Book {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String name) {
+        this.title = name;
     }
 
     public int getType() {
@@ -178,7 +178,7 @@ public class Book {
     
     @Override
     public String toString() {
-        return "Book{" + "id=" + id + ", name=" + name + ", type=" + type + ", author=" 
+        return "Book{" + "id=" + id + ", title=" + title + ", type=" + type + ", author=" 
                 + author + ", publishYear=" + publishYear + ", publisher=" + publisher 
                 + ", price=" + price + ", remainCopy=" + remainCopy + ", bookImportRecords=" 
                 + bookImportRecords + '}';

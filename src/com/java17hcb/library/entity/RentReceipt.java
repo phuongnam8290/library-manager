@@ -11,20 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name="rent_receipt")
-public class RentReceipt {
-    
-    public static class Status{
-        public static final int NOT_RETURN = 0;
-        public static final int RETURNED = 1;
-    }
-    
+public class RentReceipt {    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID")
@@ -38,24 +31,19 @@ public class RentReceipt {
     @Column(name="RENT_DATE")
     private Date rentDate;
     
-    @Column(name="STATUS")
-    private int status;
-    
     @OneToMany(mappedBy = "rentReceipt")
     @Cascade({CascadeType.SAVE_UPDATE})
     private List<BookRentReceipt> bookRentReceipts;
     
-    @OneToOne(mappedBy = "rentReceipt")
+    @OneToMany(mappedBy = "rentReceipt")
     @Cascade({CascadeType.SAVE_UPDATE})
-    private ReturnReceipt returnReceipt;
+    private List<ReturnReceipt> returnReceipts;
 
     public RentReceipt() {}
 
-    public RentReceipt(LibraryCard card, Date rentDate, int status) {
+    public RentReceipt(LibraryCard card, Date rentDate) {
         this.card = card;
         this.rentDate = rentDate;
-        this.status = status;
-        this.bookRentReceipts = bookRentReceipts;
     }
     
     public LibraryCard getCard() {
@@ -74,14 +62,6 @@ public class RentReceipt {
         this.rentDate = rentDate;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
     public List<BookRentReceipt> getBookRentReceipts() {
         return bookRentReceipts;
     }
@@ -98,18 +78,18 @@ public class RentReceipt {
         this.id = id;
     }
 
-    public ReturnReceipt getReturnReceipt() {
-        return returnReceipt;
+    public List<ReturnReceipt> getReturnReceipts() {
+        return returnReceipts;
     }
 
-    public void setReturnReceipt(ReturnReceipt returnReceipt) {
-        this.returnReceipt = returnReceipt;
+    public void setReturnReceipts(List<ReturnReceipt> returnReceipts) {
+        this.returnReceipts = returnReceipts;
     }
     
     @Override
     public String toString() {
         return "RentReceipt{" + "id=" + id + ", card=" + card + ", rentDate=" 
-                + rentDate + ", status=" + status + '}';
+                + rentDate + '}';
     }
     
     public void addBookToReceipt (BookRentReceipt record){

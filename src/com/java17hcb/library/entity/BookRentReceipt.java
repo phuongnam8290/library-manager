@@ -3,9 +3,6 @@ package com.java17hcb.library.entity;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -18,7 +15,7 @@ public class BookRentReceipt {
     public static class Status{
         public static final int NOT_RETURN = 0;
         public static final int RETURNED = 1;
-        public static final int LOSTED = 1;
+        public static final int LOSTED = 2;
     }
     
     @EmbeddedId
@@ -34,15 +31,18 @@ public class BookRentReceipt {
     @JoinColumn(name="BOOK_ID")
     private Book book;
     
+    @ManyToOne
+    @JoinColumn(name="RETURN_RECEIPT_ID")
+    private ReturnReceipt returnReceipt = null;
+    
     @Column(name="STATUS")
-    private int status;
+    private int status = Status.NOT_RETURN;
     
     public BookRentReceipt(){}
 
     public BookRentReceipt(RentReceipt rentReceipt, Book book) {
         this.rentReceipt = rentReceipt;
         this.book = book;
-        this.status = 0;
     }
 
     public BookRentReceiptPK getBookRentReceiptPK() {
@@ -69,6 +69,14 @@ public class BookRentReceipt {
         this.book = book;
     }
 
+    public ReturnReceipt getReturnReceipt() {
+        return returnReceipt;
+    }
+
+    public void setReturnReceipt(ReturnReceipt returnReceipt) {
+        this.returnReceipt = returnReceipt;
+    }
+    
     public int getStatus() {
         return status;
     }

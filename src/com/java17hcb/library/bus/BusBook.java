@@ -19,6 +19,10 @@ public class BusBook {
         return instance;
     }
     
+    public Book findBookById(int id){
+        return DaoBook.getInstance().findBookById(id);
+    }
+    
     public boolean importBook(String name, int type, String author, Date publishYear, String publisher, long price, int copies){
         if(CurrentStaff.getCurrentStaff().getDivision() != Staff.Division.THU_KHO){
             return false;

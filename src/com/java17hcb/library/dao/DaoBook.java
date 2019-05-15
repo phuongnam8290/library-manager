@@ -63,4 +63,21 @@ public class DaoBook {
         
         return true;
     }
+
+    public Book findBookById(int id) {
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.getCurrentSession();
+        
+        try{
+            session.beginTransaction();
+            Book book = session.find(Book.class, id);
+            session.getTransaction().commit();    
+            return book;
+        } catch(Exception e){
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }        
+    }
 }

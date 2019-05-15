@@ -9,7 +9,9 @@ import com.java17hcb.library.entity.Staff;
 import com.java17hcb.library.utils.CurrentStaff;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class View {
     public static void main(String... args) throws ParseException{
@@ -50,7 +52,7 @@ public class View {
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             Date dateOfBirth = formatter.parse(dateInString);
             
-            System.out.println(BusLibraryCard.getInstance().createLibraryCard(fullName, type, dateOfBirth, address, email, createDate));*/
+            System.out.println(BusLibraryCard.getInstance().createLibraryCard(fullName, type, dateOfBirth, address, email, createDate));
             
             
             
@@ -66,7 +68,18 @@ public class View {
             long price = 300000;
             int copies = 5;
             
-            System.out.println(BusBook.getInstance().importBook(name, type, author, publishYear, publisher, price, copies));
+            System.out.println(BusBook.getInstance().importBook(name, type, author, publishYear, publisher, price, copies));*/
+            
+            
+            /*List<Integer> bookIds = new ArrayList<>();
+            bookIds.add(31);
+            bookIds.add(34);           
+            System.out.println(BusLibraryCard.getInstance().rentBooks(2, bookIds));*/
+            
+            
+            
+            
+            System.out.println(BusLibraryCard.getInstance().checkRentStatus(2));
         }
     }
 }

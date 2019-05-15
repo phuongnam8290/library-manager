@@ -1,19 +1,28 @@
 package com.java17hcb.library.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name="return_receipt")
 public class ReturnReceipt {
     @Id
-    @Column(name="RENT_RECEIPT_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="ID")
     private int id;
     
     @Column(name="RETURN_DATE")
@@ -25,11 +34,14 @@ public class ReturnReceipt {
     @Column(name="LOST_FEE")
     private long lostFee;
     
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="RENT_RECEIPT_ID")
-    @MapsId
     private RentReceipt rentReceipt;
 
+    @OneToMany(mappedBy="returnReceipt")
+    @Cascade({CascadeType.SAVE_UPDATE})
+    private List<BookRentReceipt> bookRentReceipts;
+    
     public ReturnReceipt() {}
 
     public ReturnReceipt(RentReceipt rentReceipt) {
@@ -77,9 +89,24 @@ public class ReturnReceipt {
         this.rentReceipt = rentReceipt;
     }
 
+    public List<BookRentReceipt> getBookRentReceipts() {
+        return bookRentReceipts;
+    }
+
+    public void setBookRentReceipts(List<BookRentReceipt> bookRentReceipts) {
+        this.bookRentReceipts = bookRentReceipts;
+    }
+    
     @Override
     public String toString() {
         return "ReturnReceipt{" + "id=" + id + ", returnDate=" + returnDate + ", lateFee=" 
                 + lateFee + ", lostFee=" + lostFee + ", rentReceipt=" + rentReceipt + '}';
-    }  
+    }
+    
+    public void addBookToReceipt(BookRentReceipt record){
+        if(this.bookRentReceipts == null){
+            this.bookRentReceipts = new ArrayList();
+        }
+        this.bookRentReceipts.add(record);
+    }
 }

@@ -88,7 +88,7 @@ public class BusStaff {
      * @param bookId id of this book
      * @param reason Reason to liquidate this book, use value in static class LiquidateHistory.Reason
      * @param copy Number of books need to liquidate
-     * @return 1: liquidate success
+     * @return 1: Liquidate successfully
      *         0: Current Staff user don't have permission to create Liquidate History
      *        -1: Book not exist
      *        -2: Not enough copy
@@ -99,6 +99,33 @@ public class BusStaff {
             return CURRENT_STAFF_DONT_HAVE_PERMISSION;
         } else {
             return DaoStaff.getInstance().liquidateBook(bookId, reason, copy);
+        }
+    }
+    
+    public static final int RECORD_LOST_SUCCESS = 1;
+    public static final int RECORD_LOST_BOOK_NOT_EXIST = -1;
+    public static final int RECORD_LOST_LIBRARY_CARD_NOT_EXIST = -2;
+    public static final int RECORD_LOST_LIBRARY_CARD_NOT_RENT_THIS_BOOK = -3;
+    public static final int RECORD_LOST_BOOK_PRICE_LOWER_THAN_FINES_FEE = -4;
+    public static final int RECORD_LOST_UNKNOWN_ERROR = -5;
+    
+    /**
+     * Create Lost History for this book and this library card
+     * @param libraryCardId id of this library card
+     * @param bookId id of this book
+     * @param finesFee fines fee this card need to pay
+     * @return 1: Record successfully
+     *         0: Current Staff user don't have permission to create Liquidate History
+     *        -1: Book not exist
+     *        -2: Library card not exist
+     *        -3: Book price lower than fines fee
+     *        -4: Unknown error
+     */
+    public int recordLostBook(int libraryCardId, int bookId, long finesFee){
+        if(CurrentStaff.getCurrentStaff().getDivision() != Staff.Division.THU_THU){
+            return CURRENT_STAFF_DONT_HAVE_PERMISSION;
+        } else {
+            return DaoStaff.getInstance().recordLostBook(libraryCardId, bookId, finesFee);
         }
     }
 }

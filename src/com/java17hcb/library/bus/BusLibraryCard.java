@@ -48,7 +48,7 @@ public class BusLibraryCard {
 
     /**
      * Check ability to rent new book
-     * @param card Library card need to check
+     * @param libraryCardId Library card need to check
      * @return The number of book this card can rent or the reason for deny rent new book
      *         0: Card already rent 5 book
      *         -1: Card expired
@@ -78,7 +78,7 @@ public class BusLibraryCard {
         return DaoLibraryCard.getInstance().rentBooks(libraryCardId, bookIds);
     }
     
-    public boolean returnBook(int libraryCardId, List<Integer> returnBookIds, List<Integer> lostBookIds){
-        return DaoLibraryCard.getInstance().returnBook(libraryCardId, returnBookIds, lostBookIds);
+    public boolean returnBook(int libraryCardId, List<Integer> returnBookIds){
+        return DaoLibraryCard.getInstance().returnBook(libraryCardId, returnBookIds);
     }
 }

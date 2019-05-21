@@ -84,13 +84,10 @@ public class View {
             
             
             /*List<Integer> returnBookIds = new ArrayList<>();
-            returnBookIds.add(31);
-            returnBookIds.add(34);
-            
-            List<Integer> lostBookIds = new ArrayList<>();
-            lostBookIds.add(32);
-            
-            System.out.println(BusLibraryCard.getInstance().returnBook(2, returnBookIds, lostBookIds));*/
+            returnBookIds.add(32);
+            //returnBookIds.add(35);
+
+            System.out.println(BusLibraryCard.getInstance().returnBook(2, returnBookIds));*/
             
             
             
@@ -98,7 +95,12 @@ public class View {
             
             
             
-            System.out.println(BusStaff.getInstance().liquidateBook(32, LiquidateHistory.Reason.BROKEN, 4));
+            //System.out.println(BusStaff.getInstance().liquidateBook(32, LiquidateHistory.Reason.BROKEN, 4));
+            
+            
+            
+            
+            System.out.println(BusStaff.getInstance().recordLostBook(2, 35, 50000));
         }
     }
 }

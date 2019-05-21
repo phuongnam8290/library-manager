@@ -171,7 +171,7 @@ public class DaoLibraryCard {
         }        
     }
     
-    public boolean returnBook(int libraryCardId, List<Integer> returnBookIds, List<Integer> lostBookIds) {
+    public boolean returnBook(int libraryCardId, List<Integer> returnBookIds) {
         SessionFactory sessionFactory = HibernateUtil.getInstance();
         Session session = sessionFactory.getCurrentSession();
         
@@ -179,7 +179,7 @@ public class DaoLibraryCard {
         session.beginTransaction();
         LibraryCard card = session.get(LibraryCard.class, libraryCardId);
         ReturnReceipt returnReceipt = new ReturnReceipt();
-        List<BookRentReceipt> currentRentBook = new ArrayList<>();
+        List<BookRentReceipt> currentRentBook = new ArrayList<>();       
         
         for(RentReceipt receipt : card.getRentReceipts()){
             for(BookRentReceipt record : receipt.getBookRentReceipts()){
@@ -189,10 +189,10 @@ public class DaoLibraryCard {
         }
         
         Stream<BookRentReceipt> returnBookStream = currentRentBook.stream().filter(c -> returnBookIds.contains(c.getBook().getId()));
-        Stream<BookRentReceipt> lostBookStream = currentRentBook.stream().filter(c -> lostBookIds.contains(c.getBook().getId()));
+        //Stream<BookRentReceipt> lostBookStream = currentRentBook.stream().filter(c -> lostBookIds.contains(c.getBook().getId()));
         
         List<BookRentReceipt> returnBook = getArrayListFromStream(returnBookStream);
-        List<BookRentReceipt> lostBook = getArrayListFromStream(lostBookStream);
+        //List<BookRentReceipt> lostBook = getArrayListFromStream(lostBookStream);
         
         for(BookRentReceipt record : returnBook){
             record.setStatus(BookRentReceipt.Status.RETURNED);
@@ -202,13 +202,13 @@ public class DaoLibraryCard {
             returnReceipt.setLateFee(returnReceipt.getLateFee() + calculateLateFee(record));
         }
         
-        for(BookRentReceipt record : lostBook){
-            record.setStatus(BookRentReceipt.Status.LOSTED);
-            returnReceipt.addBookToReceipt(record);
-            returnReceipt.setLostFee(returnReceipt.getLostFee() + record.getBook().getPrice());
-        }
+//        for(BookRentReceipt record : lostBook){
+//            record.setStatus(BookRentReceipt.Status.LOSTED);
+//            returnReceipt.addBookToReceipt(record);
+//            returnReceipt.setLostFee(returnReceipt.getLostFee() + record.getBook().getPrice());
+//        }
         
-        card.setFinesFee(card.getFinesFee() + returnReceipt.getLateFee() + returnReceipt.getLostFee());
+//        card.setFinesFee(card.getFinesFee() + returnReceipt.getLateFee() + returnReceipt.getLostFee());
         session.save(returnReceipt);
         session.getTransaction().commit();    
         return true;

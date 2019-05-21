@@ -8,11 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -30,10 +26,7 @@ public class ReturnReceipt {
     
     @Column(name="LATE_FEE")
     private long lateFee;
-    
-    @Column(name="LOST_FEE")
-    private long lostFee;
-    
+        
 //    @ManyToOne
 //    @JoinColumn(name="RENT_RECEIPT_ID")
 //    private RentReceipt rentReceipt;
@@ -73,22 +66,6 @@ public class ReturnReceipt {
         this.lateFee = lateFee;
     }
 
-    public long getLostFee() {
-        return lostFee;
-    }
-
-    public void setLostFee(long lostFee) {
-        this.lostFee = lostFee;
-    }
-
-//    public RentReceipt getRentReceipt() {
-//        return rentReceipt;
-//    }
-//
-//    public void setRentReceipt(RentReceipt rentReceipt) {
-//        this.rentReceipt = rentReceipt;
-//    }
-
     public List<BookRentReceipt> getBookRentReceipts() {
         return bookRentReceipts;
     }
@@ -100,7 +77,7 @@ public class ReturnReceipt {
     @Override
     public String toString() {
         return "ReturnReceipt{" + "id=" + id + ", returnDate=" + returnDate + ", lateFee=" 
-                + lateFee + ", lostFee=" + lostFee + /*", rentReceipt=" + rentReceipt*/ + '}';
+                + lateFee + '}';
     }
     
     public void addBookToReceipt(BookRentReceipt record){

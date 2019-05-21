@@ -2,14 +2,12 @@ package com.java17hcb.library.entity;
 
 import java.util.Date;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 @Entity
@@ -33,7 +31,7 @@ public class LostHistory {
     private Staff recordedBy;
     
     @Column(name="LOST_DATE")
-    private Date lostDate;
+    private Date lostDate = new Date();
     
     @Column(name="FINES_FEE")
     private long finesFee;
@@ -41,11 +39,10 @@ public class LostHistory {
     public LostHistory() {
     }
 
-    public LostHistory(Book book, LibraryCard card, Staff staff, Date lostDate, long finesFee) {
+    public LostHistory(Book book, LibraryCard card, Staff staff, long finesFee) {
         this.book = book;
         this.card = card;
         this.recordedBy = staff;
-        this.lostDate = lostDate;
         this.finesFee = finesFee;
     }
     

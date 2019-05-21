@@ -5,6 +5,7 @@ import com.java17hcb.library.bus.BusLibraryCard;
 import com.java17hcb.library.bus.BusStaff;
 import com.java17hcb.library.entity.Book;
 import com.java17hcb.library.entity.LibraryCard;
+import com.java17hcb.library.entity.LiquidateHistory;
 import com.java17hcb.library.entity.Staff;
 import com.java17hcb.library.utils.CurrentStaff;
 import java.text.ParseException;
@@ -93,7 +94,11 @@ public class View {
             
             
             
-            System.out.println(BusStaff.getInstance().createFinesReceipt(3, 8000));
+            //System.out.println(BusStaff.getInstance().createFinesReceipt(5, 8000));
+            
+            
+            
+            System.out.println(BusStaff.getInstance().liquidateBook(32, LiquidateHistory.Reason.BROKEN, 4));
         }
     }
 }

@@ -1,7 +1,9 @@
 package com.java17hcb.library.dao;
 
+import com.java17hcb.library.entity.Book;
 import com.java17hcb.library.entity.FinesReceipt;
 import com.java17hcb.library.entity.LibraryCard;
+import com.java17hcb.library.entity.LiquidateHistory;
 import com.java17hcb.library.entity.Staff;
 import com.java17hcb.library.utils.CurrentStaff;
 import com.java17hcb.library.utils.HibernateUtil;
@@ -110,7 +112,8 @@ public class DaoStaff {
     
     public static final int PAYMENT_SUCCESS = 1;
     public static final int PAYMENT_LARGER_THAN_FINES = -1;
-    public static final int PAYMENT_UNKNOWN_ERROR = -2;
+    public static final int PAYMENT_LIBRARY_CARD_NOT_EXIST = -2;
+    public static final int PAYMENT_UNKNOWN_ERROR = -3;
     
     public int createFinesReceipt(int libraryCardId, long payment) {
         SessionFactory sessionFactory = HibernateUtil.getInstance();
@@ -120,6 +123,9 @@ public class DaoStaff {
         try{
             session.beginTransaction();
             LibraryCard card = session.get(LibraryCard.class, libraryCardId);
+            if (card == null){
+                return PAYMENT_LIBRARY_CARD_NOT_EXIST;
+            }
             if(payment > card.getFinesFee()){
                 return PAYMENT_LARGER_THAN_FINES;
             } else{
@@ -136,5 +142,40 @@ public class DaoStaff {
             session.close();
         }
         return PAYMENT_SUCCESS;
+    }
+
+    public static final int LIQUIDATE_SUCCESS = 1;
+    public static final int LIQUIDATE_BOOK_NOT_EXIST = -1;
+    public static final int LIQUIDATE_NOT_ENOUGH_COPY = -2;
+    public static final int LIQUIDATE_UNKNOWN_ERROR = -3;
+    
+    public int liquidateBook(int bookId, int reason, int copy) {
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.getCurrentSession();
+        
+        Staff currentStaff = CurrentStaff.getCurrentStaff();
+        try{
+            session.beginTransaction();
+            Book book = session.get(Book.class, bookId);
+            if (book == null){
+                return LIQUIDATE_BOOK_NOT_EXIST;
+            }
+            if (book.getRemainCopy() < copy){
+                return LIQUIDATE_NOT_ENOUGH_COPY;
+            }
+            
+            Staff staff = session.get(Staff.class, currentStaff.getId());
+            LiquidateHistory history = new LiquidateHistory(book, staff, reason, copy);
+            book.setRemainCopy(book.getRemainCopy() - copy);
+            
+            session.save(history);
+            session.getTransaction().commit();
+        } catch (Exception e){
+            e.printStackTrace();
+            return LIQUIDATE_UNKNOWN_ERROR;
+        } finally {
+            session.close();
+        }
+        return LIQUIDATE_SUCCESS;
     }
 }

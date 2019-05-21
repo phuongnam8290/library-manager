@@ -2,19 +2,23 @@ package com.java17hcb.library.entity;
 
 import java.util.Date;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="LIQUIDATE_HISTORY")
-public class LiquidateHistory {    
+public class LiquidateHistory {
+    public static class Reason{
+        public static final int LOSTED = 0;
+        public static final int BROKEN = 1;
+        public static final int LOSTED_BY_STAFF = 2;
+    }
+    
     @ManyToOne
     @JoinColumn(name="BOOK_ID")
     private Book book;
@@ -29,10 +33,10 @@ public class LiquidateHistory {
     private int id;
     
     @Column(name="LIQUIDATE_DATE")
-    private Date liquidateTime;
+    private Date liquidateTime = new Date();
     
     @Column(name="REASON")
-    private String reason;
+    private int reason;
     
     @Column(name="COPY")
     private int copy;
@@ -40,10 +44,9 @@ public class LiquidateHistory {
     public LiquidateHistory() {
     }
 
-    public LiquidateHistory(Book book, Staff liquidateBy, Date liquidateTime, String reason, int copy) {
+    public LiquidateHistory(Book book, Staff liquidateBy, int reason, int copy) {
         this.book = book;
         this.liquidateBy = liquidateBy;
-        this.liquidateTime = liquidateTime;
         this.reason = reason;
         this.copy = copy;
     }
@@ -80,11 +83,11 @@ public class LiquidateHistory {
         this.liquidateTime = liquidateTime;
     }
 
-    public String getReason() {
+    public int getReason() {
         return reason;
     }
 
-    public void setReason(String reason) {
+    public void setReason(int reason) {
         this.reason = reason;
     }
 

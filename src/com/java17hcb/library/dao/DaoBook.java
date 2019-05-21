@@ -23,7 +23,10 @@ public class DaoBook {
         return instance;
     }
     
-    public boolean importBook(Book importedBook, int copies){
+    public static final int IMPORT_SUCCESS = 1;
+    public static final int IMPORT_UNKNOWN_ERROR = -1;
+    
+    public int importBook(Book importedBook, int copies){
         SessionFactory sessionFactory = HibernateUtil.getInstance();
         Session session = sessionFactory.getCurrentSession();
         
@@ -56,12 +59,11 @@ public class DaoBook {
             session.getTransaction().commit();
         }catch (Exception e){
             e.printStackTrace();
-            return false;
+            return IMPORT_UNKNOWN_ERROR;
         } finally {
             session.close();
-        }
-        
-        return true;
+        }        
+        return IMPORT_SUCCESS;
     }
 
     public Book findBookById(int id) {

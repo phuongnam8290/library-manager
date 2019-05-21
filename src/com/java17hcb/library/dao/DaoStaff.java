@@ -1,6 +1,9 @@
 package com.java17hcb.library.dao;
 
+import com.java17hcb.library.entity.FinesReceipt;
+import com.java17hcb.library.entity.LibraryCard;
 import com.java17hcb.library.entity.Staff;
+import com.java17hcb.library.utils.CurrentStaff;
 import com.java17hcb.library.utils.HibernateUtil;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -95,15 +98,43 @@ public class DaoStaff {
         Session session = sessionFactory.getCurrentSession();
         
         try{
-            session.beginTransaction();
-        
-            session.save(staff);
-            
+            session.beginTransaction();      
+            session.save(staff);           
             session.getTransaction().commit();
         } catch (Exception e){
             e.printStackTrace();
         } finally {
             session.close();
         }
+    }
+    
+    public static final int PAYMENT_SUCCESS = 1;
+    public static final int PAYMENT_LARGER_THAN_FINES = -1;
+    public static final int PAYMENT_UNKNOWN_ERROR = -2;
+    
+    public int createFinesReceipt(int libraryCardId, long payment) {
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.getCurrentSession();
+        
+        Staff currentStaff = CurrentStaff.getCurrentStaff();
+        try{
+            session.beginTransaction();
+            LibraryCard card = session.get(LibraryCard.class, libraryCardId);
+            if(payment > card.getFinesFee()){
+                return PAYMENT_LARGER_THAN_FINES;
+            } else{
+                Staff staff = session.get(Staff.class, currentStaff.getId());
+                FinesReceipt receipt = new FinesReceipt(staff, card, card.getFinesFee(), payment);
+                card.setFinesFee(card.getFinesFee() - payment);
+                session.save(receipt);
+            }
+            session.getTransaction().commit();
+        } catch (Exception e){
+            e.printStackTrace();
+            return PAYMENT_UNKNOWN_ERROR;
+        } finally {
+            session.close();
+        }
+        return PAYMENT_SUCCESS;
     }
 }

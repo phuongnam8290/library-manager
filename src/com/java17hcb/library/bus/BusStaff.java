@@ -2,6 +2,7 @@ package com.java17hcb.library.bus;
 
 import com.java17hcb.library.dao.DaoStaff;
 import com.java17hcb.library.entity.Staff;
+import com.java17hcb.library.utils.CurrentStaff;
 import java.util.Date;
 
 public class BusStaff {
@@ -52,6 +53,26 @@ public class BusStaff {
             DaoStaff.getInstance().createStaff(staff);
             
             return "Account created!";
+        }
+    }
+    
+    public static final int PAYMENT_SUCCESS = 1;
+    public static final int CURRENT_STAFF_DONT_HAVE_PERMISSION = 0;
+    public static final int PAYMENT_LARGER_THAN_FINES = -1;
+    
+    /**
+     * Create Fines Receipt for this library card;
+     * @param libraryCardId Id for this card
+     * @param payment Payment for this card
+     * @return 1: Transaction success
+     *         0: Current Staff user don't have permission to create Fine Receipt
+     *        -1: Payment larger than current Fines
+     */
+    public int createFinesReceipt(int libraryCardId, long payment){
+        if(CurrentStaff.getCurrentStaff().getDivision() != Staff.Division.THU_QUY){
+            return CURRENT_STAFF_DONT_HAVE_PERMISSION;
+        } else {
+            return DaoStaff.getInstance().createFinesReceipt(libraryCardId, payment);
         }
     }
 }

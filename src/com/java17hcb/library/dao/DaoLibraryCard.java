@@ -170,7 +170,7 @@ public class DaoLibraryCard {
             session.close();
         }        
     }
-
+    
     public boolean returnBook(int libraryCardId, List<Integer> returnBookIds, List<Integer> lostBookIds) {
         SessionFactory sessionFactory = HibernateUtil.getInstance();
         Session session = sessionFactory.getCurrentSession();

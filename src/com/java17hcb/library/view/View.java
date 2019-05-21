@@ -82,14 +82,18 @@ public class View {
             
             
             
-            List<Integer> returnBookIds = new ArrayList<>();
+            /*List<Integer> returnBookIds = new ArrayList<>();
             returnBookIds.add(31);
             returnBookIds.add(34);
             
             List<Integer> lostBookIds = new ArrayList<>();
             lostBookIds.add(32);
             
-            System.out.println(BusLibraryCard.getInstance().returnBook(2, returnBookIds, lostBookIds));
+            System.out.println(BusLibraryCard.getInstance().returnBook(2, returnBookIds, lostBookIds));*/
+            
+            
+            
+            System.out.println(BusStaff.getInstance().createFinesReceipt(3, 8000));
         }
     }
 }

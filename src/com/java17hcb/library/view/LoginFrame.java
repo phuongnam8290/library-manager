@@ -187,6 +187,7 @@ public class LoginFrame extends javax.swing.JFrame {
                                         null);
             if(input == JOptionPane.OK_OPTION){
                 dispose();
+                //MainFrame.showScreen();
             }
         }
     }//GEN-LAST:event_btnLoginActionPerformed
@@ -261,7 +262,7 @@ public class LoginFrame extends javax.swing.JFrame {
         setResizable(false);
         
         // Set main image
-        ImageIcon imageIcon = new ImageIcon(getClass().getResource("/com/java17hcb/library/resource/000080-monitor-locked.png"));
+        ImageIcon imageIcon = new ImageIcon(getClass().getResource("/com/java17hcb/library/resource/computer_lock.png"));
         lbIcon.setIcon(new ImageIcon(imageIcon.getImage().getScaledInstance(125, 125, Image.SCALE_SMOOTH)));
         
         // Set icon for buttons

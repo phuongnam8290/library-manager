@@ -3,9 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/labyr/Desktop/Java/Library_Manager/src/com/java17hcb/library/entity/BookRentReceipt.java</file>
-            <file>file:/C:/Users/labyr/Desktop/Java/Library_Manager/src/com/java17hcb/library/view/View.java</file>
-            <file>file:/C:/Users/labyr/Desktop/Java/Library_Manager/src/com/java17hcb/library/dao/DaoStaff.java</file>
+            <file>file:/C:/Users/labyr/Desktop/Java/Library_Manager/src/com/java17hcb/library/view/LoginFrame.java</file>
+            <file>file:/C:/Users/labyr/Desktop/Java/Library_Manager/src/com/java17hcb/library/view/MainFrame.java</file>
+            <file>file:/C:/Users/labyr/Desktop/Java/Library_Manager/src/com/java17hcb/library/utils/BookTableModel.java</file>
+            <file>file:/C:/Users/labyr/Desktop/Java/Library_Manager/src/com/java17hcb/library/dao/DaoBook.java</file>
+            <file>file:/C:/Users/labyr/Desktop/Java/Library_Manager/src/com/java17hcb/library/bus/BusBook.java</file>
         </group>
     </open-files>
 </project-private>

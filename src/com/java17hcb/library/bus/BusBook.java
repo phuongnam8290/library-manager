@@ -5,6 +5,7 @@ import com.java17hcb.library.entity.Book;
 import com.java17hcb.library.entity.Staff;
 import com.java17hcb.library.utils.CurrentStaff;
 import java.util.Date;
+import java.util.List;
 
 public class BusBook {
     private static BusBook instance;
@@ -17,6 +18,10 @@ public class BusBook {
         }
         
         return instance;
+    }
+    
+    public List<Book> findAllBooks(){
+        return DaoBook.getInstance().findAllBooks();
     }
     
     public Book findBookById(int id){
@@ -52,5 +57,9 @@ public class BusBook {
         //TODO: check publish year < 8 year
         Book book = new Book(title, type, author, publishYear, publisher, price, copies);
         return DaoBook.getInstance().importBook(book, copies);
+    }
+
+    public boolean updateBook(Book modifiedBook) {
+        return DaoBook.getInstance().updateBook(modifiedBook);
     }
 }

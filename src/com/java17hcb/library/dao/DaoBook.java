@@ -6,6 +6,7 @@ import com.java17hcb.library.entity.Staff;
 import com.java17hcb.library.utils.CurrentStaff;
 import com.java17hcb.library.utils.HibernateUtil;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.NoResultException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -66,6 +67,25 @@ public class DaoBook {
         return IMPORT_SUCCESS;
     }
 
+    public List<Book> findAllBooks(){
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.getCurrentSession();
+        
+        try{
+            session.beginTransaction();
+            String hql = "FROM Book";
+            Query query = session.createQuery(hql);         
+            List<Book> books = query.list();           
+            session.getTransaction().commit();    
+            return books;
+        } catch(Exception e){
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }        
+    }
+    
     public Book findBookById(int id) {
         SessionFactory sessionFactory = HibernateUtil.getInstance();
         Session session = sessionFactory.getCurrentSession();
@@ -108,5 +128,22 @@ public class DaoBook {
         } finally {
             session.close();
         }
+    }
+
+    public boolean updateBook(Book modifiedBook) {
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.getCurrentSession();
+        
+        try{
+            session.beginTransaction();
+            session.saveOrUpdate(modifiedBook);
+            session.getTransaction().commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        } finally {
+            session.close();
+        }
+        return true;
     }
 }

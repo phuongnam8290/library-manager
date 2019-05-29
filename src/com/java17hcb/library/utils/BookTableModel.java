@@ -105,6 +105,61 @@ public class BookTableModel extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        Book modifiedBook = (Book)data.get(rowIndex).clone();
+        switch(columnIndex){
+        case 1:
+            if(modifiedBook.getTitle().equals((String)aValue)){
+                return;
+            }
+            modifiedBook.setTitle((String)aValue);
+            break;
+        case 3:
+            if(modifiedBook.getAuthor().equals((String)aValue)){
+                return;
+            }
+            modifiedBook.setAuthor((String)aValue);
+            break;
+        case 5:
+            if(modifiedBook.getPublisher().equals((String)aValue)){
+                return;
+            }
+            modifiedBook.setPublisher((String)aValue);
+            break;
+        case 2:
+            switch((String)aValue){
+                case "A":
+                    if(modifiedBook.getType() == Book.Type.A){
+                        return;
+                    }
+                    modifiedBook.setType(Book.Type.A);
+                    break;
+                case "B":
+                    if(modifiedBook.getType() == Book.Type.B){
+                        return;
+                    }
+                    modifiedBook.setType(Book.Type.B);
+                    break;
+                case "C":
+                    if(modifiedBook.getType() == Book.Type.C){
+                        return;
+                    }
+                    modifiedBook.setType(Book.Type.C);
+                    break;
+            }
+            break;
+        case 4:
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(modifiedBook.getPublishYear());
+            if(cal.get(Calendar.YEAR) == (int)aValue){
+                return;
+            }
+            cal.clear();
+            cal.set(Calendar.YEAR, (int)aValue);
+            Date date = cal.getTime();
+            modifiedBook.setPublishYear(date);
+            break;
+        }
+
         int input = JOptionPane.showOptionDialog(frame, 
                                             "Do you really want to modify this value?",
                                             "Warning",
@@ -115,69 +170,20 @@ public class BookTableModel extends AbstractTableModel {
                                             null);
         if (input == JOptionPane.CANCEL_OPTION){
             return;
-        }
-        else {
-            Book modifiedBook = data.get(rowIndex);
-            String stringValue, stringOldValue;
-            Date dateOldValue;
-            int intValue, intOldValue;
-            switch(columnIndex){
-            case 1:
-                stringValue = (String)aValue;
-                stringOldValue = modifiedBook.getTitle();
-                modifiedBook.setTitle(stringValue);
-                break;
-            case 3:
-                stringValue = (String)aValue;
-                stringOldValue = modifiedBook.getAuthor();
-                modifiedBook.setAuthor(stringValue);
-                break;
-            case 5:
-                stringValue = (String)aValue;
-                stringOldValue = modifiedBook.getPublisher();
-                modifiedBook.setPublisher(stringValue);
-                break;
-            case 2:
-                stringValue = (String)aValue;
-                intOldValue = modifiedBook.getType();
-                switch(stringValue){
-                    case "A":
-                        modifiedBook.setType(Book.Type.A);
-                        break;
-                    case "B":
-                        modifiedBook.setType(Book.Type.B);
-                        break;
-                    case "C":
-                        modifiedBook.setType(Book.Type.C);
-                        break;
-                }
-                break;
-            case 4:
-                intValue = (Integer)aValue;
-                dateOldValue = modifiedBook.getPublishYear();
-                Calendar cal = Calendar.getInstance();
-                cal.clear();
-                cal.set(Calendar.YEAR, intValue);
-                Date date = cal.getTime();
-                modifiedBook.setPublishYear(date);
-                break;
-            }
-            
+        } else {
             if(BusBook.getInstance().updateBook(modifiedBook)){
-                JOptionPane.showMessageDialog(frame, 
-                                        "Update success!",
-                                        "Success",
-                                        JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(frame, 
-                                        "There is something wrong. Please try again later",
-                                        "Failed",
-                                        JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(frame, 
+                                    "Update success!",
+                                    "Success",
+                                    JOptionPane.INFORMATION_MESSAGE);
+            fireTableCellUpdated(rowIndex, columnIndex);
+            } 
+            else {
+            JOptionPane.showMessageDialog(frame, 
+                                    "There is something wrong. Please try again later",
+                                    "Failed",
+                                    JOptionPane.ERROR_MESSAGE);
             }
-        }      
-        fireTableCellUpdated(rowIndex, columnIndex);
-    }
-    
-    
-    
+        }
+    }  
 }

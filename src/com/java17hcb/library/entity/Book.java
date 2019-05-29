@@ -17,7 +17,7 @@ import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name="book")
-public class Book {
+public class Book implements Cloneable{
     
     public static class Type{
         public static final int A = 0;
@@ -204,4 +204,17 @@ public class Book {
         }
         this.liquidateHistory.add(record);
     }
+
+    @Override
+    public Object clone(){
+        Object cloneObject;
+        try{
+            return super.clone();
+        } catch(CloneNotSupportedException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    
 }

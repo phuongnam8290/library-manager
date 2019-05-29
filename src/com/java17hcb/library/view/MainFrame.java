@@ -8,13 +8,15 @@ package com.java17hcb.library.view;
 import com.java17hcb.library.bus.BusBook;
 import com.java17hcb.library.entity.Book;
 import com.java17hcb.library.entity.Staff;
-import com.java17hcb.library.utils.BookTableModel;
+import com.java17hcb.library.utils.tablemodel.BookTableModel;
 import com.java17hcb.library.utils.CurrentStaff;
+import java.awt.Dialog;
 import java.awt.Image;
 import java.util.List;
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -53,6 +55,7 @@ public class MainFrame extends javax.swing.JFrame {
         pnBook = new javax.swing.JPanel();
         spnBook = new javax.swing.JScrollPane();
         tbBook = new javax.swing.JTable();
+        btnImport = new javax.swing.JButton();
         pnCard = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -124,13 +127,24 @@ public class MainFrame extends javax.swing.JFrame {
         spnBook.setViewportView(tbBook);
         tbBook.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
+        btnImport.setText("Import");
+        btnImport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImportActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnBookLayout = new javax.swing.GroupLayout(pnBook);
         pnBook.setLayout(pnBookLayout);
         pnBookLayout.setHorizontalGroup(
             pnBookLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnBookLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(spnBook, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
+                .addGroup(pnBookLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spnBook, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
+                    .addGroup(pnBookLayout.createSequentialGroup()
+                        .addComponent(btnImport)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pnBookLayout.setVerticalGroup(
@@ -138,7 +152,9 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(pnBookLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(spnBook, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(166, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnImport)
+                .addContainerGap(116, Short.MAX_VALUE))
         );
 
         tpnMain.addTab("Book", pnBook);
@@ -185,10 +201,15 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportActionPerformed
+        JDialog dialog = new ImportDialog(this, true);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnImportActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String... args) {
+    public static void showScreen(String... args) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -221,6 +242,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnImport;
     private javax.swing.JLabel lbAvatar;
     private javax.swing.JLabel lbBanner;
     private javax.swing.JLabel lbDivision;
@@ -238,6 +260,10 @@ public class MainFrame extends javax.swing.JFrame {
          // Set attribute for main panel
         setTitle("Login");
         setLocationRelativeTo(null);
+        
+        if(!(CurrentStaff.getCurrentStaff().getDivision() == Staff.Division.THU_KHO)){
+            btnImport.setEnabled(false);
+        }
         
         // Set main image
         ImageIcon imageAvatar = new ImageIcon(getClass().getResource("/com/java17hcb/library/resource/user_avatar.png"));
@@ -274,11 +300,6 @@ public class MainFrame extends javax.swing.JFrame {
         BookTableModel bookTableModel = new BookTableModel();
         bookTableModel.setData(books);
         bookTableModel.setJFrame(this);
-//        bookTableModel.addTableModelListener((e) -> {
-//            if(e.getType() == TableModelEvent.UPDATE){
-//                
-//            }
-//        });
         tbBook.setModel(bookTableModel);
         
         TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(tbBook.getModel());

@@ -8,6 +8,7 @@ package com.java17hcb.library.view;
 import com.java17hcb.library.bus.BusStaff;
 import com.java17hcb.library.entity.Staff;
 import com.java17hcb.library.utils.CurrentStaff;
+import com.java17hcb.library.utils.FormVerifier;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ import jiconfont.swing.IconFontSwing;
  *
  * @author labyr
  */
-public class LoginFrame extends javax.swing.JFrame {
+public class LoginFrame extends javax.swing.JFrame {    
     /**
      * Creates new form LoginFrame
      */
@@ -187,25 +188,31 @@ public class LoginFrame extends javax.swing.JFrame {
                                         null);
             if(input == JOptionPane.OK_OPTION){
                 dispose();
-                //MainFrame.showScreen();
+                MainFrame.showScreen();
             }
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void tfUsernameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfUsernameKeyReleased
-        verifyInput(tfUsername, lbErrUsername, "Username");
+        FormVerifier.verifyInput(btnLogin, tfUsername, lbErrUsername, "Username");
     }//GEN-LAST:event_tfUsernameKeyReleased
 
     private void tfPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfPasswordKeyReleased
-        verifyInput(tfPassword, lbErrPassword, "Password");
+        FormVerifier.verifyInput(btnLogin, tfPassword, lbErrPassword, "Password");
     }//GEN-LAST:event_tfPasswordKeyReleased
 
     private void lbErrUsernamePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_lbErrUsernamePropertyChange
-        btnLogin.setEnabled(enableLoginBtn());
+        List<String> errMessages = new ArrayList<>();
+        errMessages.add(lbErrUsername.getText());
+        errMessages.add(lbErrPassword.getText());
+        btnLogin.setEnabled(FormVerifier.enableBtnConfirm(errMessages));
     }//GEN-LAST:event_lbErrUsernamePropertyChange
 
     private void lbErrPasswordPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_lbErrPasswordPropertyChange
-        btnLogin.setEnabled(enableLoginBtn());
+        List<String> errMessages = new ArrayList<>();
+        errMessages.add(lbErrUsername.getText());
+        errMessages.add(lbErrPassword.getText());
+        btnLogin.setEnabled(FormVerifier.enableBtnConfirm(errMessages));
     }//GEN-LAST:event_lbErrPasswordPropertyChange
 
     /**
@@ -274,30 +281,4 @@ public class LoginFrame extends javax.swing.JFrame {
 
         btnLogin.setEnabled(false);
     }
-
-    private void verifyInput(JTextField input, JLabel err, String textFieldName) {
-        String inputString = input.getText();
-        if(inputString.trim().isEmpty()){
-            err.setText(textFieldName + " cannot be empty");
-            btnLogin.setEnabled(false);
-        } else if(inputString.length() <= 5){
-            err.setText(textFieldName + " must greater than 5 character");
-            btnLogin.setEnabled(false);
-        } else{
-            err.setText("");
-        }
-    }
-    
-    private boolean enableLoginBtn() {
-        List<String> errMessages = new ArrayList<>();
-        errMessages.add(lbErrUsername.getText());
-        errMessages.add(lbErrPassword.getText());
-        
-        for(String err : errMessages){
-            if(!err.isEmpty()){
-                return false;
-            }
-        }
-        return true;
-    } 
 }

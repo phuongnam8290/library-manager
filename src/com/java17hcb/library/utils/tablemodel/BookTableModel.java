@@ -1,4 +1,4 @@
-package com.java17hcb.library.utils;
+package com.java17hcb.library.utils.tablemodel;
 
 import com.java17hcb.library.bus.BusBook;
 import com.java17hcb.library.entity.Book;
@@ -176,6 +176,7 @@ public class BookTableModel extends AbstractTableModel {
                                     "Update success!",
                                     "Success",
                                     JOptionPane.INFORMATION_MESSAGE);
+            data.set(rowIndex, modifiedBook);
             fireTableCellUpdated(rowIndex, columnIndex);
             } 
             else {

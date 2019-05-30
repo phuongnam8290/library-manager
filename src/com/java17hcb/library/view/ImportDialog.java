@@ -12,9 +12,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
-import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerNumberModel;
 
@@ -23,12 +22,13 @@ import javax.swing.SpinnerNumberModel;
  * @author labyr
  */
 public class ImportDialog extends javax.swing.JDialog {
-
+    private java.awt.Frame parent; 
     /**
      * Creates new form ImportDialog
      */
     public ImportDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        this.parent = parent;
         initComponents();
         setupComponents();
     }
@@ -340,7 +340,7 @@ public class ImportDialog extends javax.swing.JDialog {
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         String title = tfTitle.getText();
         String author = tfAuthor.getText();
-        long price = (Long)snPrice.getValue();
+        long price = (Integer)snPrice.getValue();
         String publisher = tfPublisher.getText();
         Date publishYear = (Date)snYear.getValue();
         int copies = (Integer)snCopies.getValue();
@@ -360,13 +360,26 @@ public class ImportDialog extends javax.swing.JDialog {
         int result = BusBook.getInstance().importBook(title, type, author, publishYear, publisher, price, copies);
         switch(result){
             case BusBook.CURRENT_STAFF_DONT_HAVE_PERMISSION:
+                JOptionPane.showMessageDialog(this, 
+                        "You don't have permission to import book. Please login with another account and try again!",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
                 break;
             case BusBook.IMPORT_UNKNOWN_ERROR:
+                JOptionPane.showMessageDialog(this, 
+                                        "There is some problem when insert book to database. Please try again later.",
+                                        "Error",
+                                        JOptionPane.ERROR_MESSAGE);
                 break;
             case BusBook.IMPORT_SUCCESS:
-                dispose();
+                JOptionPane.showMessageDialog(this, 
+                                        "Insert book to database success!",
+                                        "Success",
+                                        JOptionPane.INFORMATION_MESSAGE);
                 break;
         }
+        ((MainFrame)parent).setupBookTable();
+        dispose();
     }//GEN-LAST:event_btnOKActionPerformed
 
     private void tfTitleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfTitleKeyReleased

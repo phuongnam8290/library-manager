@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 public class BookTableModel extends AbstractTableModel {
-    private String[] colNames = {"ID", "Title", "Type", "Author", "Year", "Publisher", "Copies"};
+    private String[] colNames = {"ID", "Title", "Type", "Author", "Year", "Publisher", "Price", "Copies"};
     private List<Book> data;
     private JFrame frame;
     
@@ -38,6 +38,8 @@ public class BookTableModel extends AbstractTableModel {
             case 5:
                 return "Publisher";
             case 6:
+                return "Price";
+            case 7:
                 return "Copies";
         }
         return "";
@@ -48,12 +50,12 @@ public class BookTableModel extends AbstractTableModel {
         if(columnIndex == 2){
             return String.class;
         }
-        if(columnIndex == 4){
+        if(columnIndex == 4 || columnIndex == 6){
             return Integer.class;
         }
         return getValueAt(0, columnIndex).getClass();
     }
-    
+     
     @Override
     public int getRowCount() {
         return data.size();
@@ -66,7 +68,7 @@ public class BookTableModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        if(columnIndex == 1 || columnIndex == 2 || columnIndex == 3 || columnIndex == 4 || columnIndex == 5){
+        if(columnIndex == 1 || columnIndex == 2 || columnIndex == 3 || columnIndex == 4 || columnIndex == 5 || columnIndex == 6){
             return true;
         }
         return false;
@@ -98,6 +100,8 @@ public class BookTableModel extends AbstractTableModel {
             case 5:
                 return book.getPublisher();
             case 6:
+                return book.getPrice();
+            case 7:
                 return book.getRemainCopy();
         }
         return null;
@@ -124,6 +128,12 @@ public class BookTableModel extends AbstractTableModel {
                 return;
             }
             modifiedBook.setPublisher((String)aValue);
+            break;
+        case 6:
+            if(modifiedBook.getPrice() == (Integer)aValue || (Integer)aValue <= 0){
+                return;
+            }
+            modifiedBook.setPrice((Integer)aValue);
             break;
         case 2:
             switch((String)aValue){

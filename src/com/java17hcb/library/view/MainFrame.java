@@ -10,7 +10,7 @@ import com.java17hcb.library.entity.Book;
 import com.java17hcb.library.entity.Staff;
 import com.java17hcb.library.utils.tablemodel.BookTableModel;
 import com.java17hcb.library.utils.CurrentStaff;
-import java.awt.Dialog;
+import com.java17hcb.library.utils.NumberRenderer;
 import java.awt.Image;
 import java.util.List;
 import javax.swing.DefaultCellEditor;
@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -33,7 +34,6 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         setupComponents();
-        setupTables();
     }
 
     /**
@@ -123,6 +123,12 @@ public class MainFrame extends javax.swing.JFrame {
             .addComponent(lbBanner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        tpnMain.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tpnMainStateChanged(evt);
+            }
+        });
+
         tbBook.setColumnSelectionAllowed(true);
         spnBook.setViewportView(tbBook);
         tbBook.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -205,6 +211,14 @@ public class MainFrame extends javax.swing.JFrame {
         JDialog dialog = new ImportDialog(this, true);
         dialog.setVisible(true);
     }//GEN-LAST:event_btnImportActionPerformed
+
+    private void tpnMainStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tpnMainStateChanged
+        switch(tpnMain.getSelectedIndex()){
+            case 0:
+                setupBookTable();
+                break;
+        }
+    }//GEN-LAST:event_tpnMainStateChanged
 
     /**
      * @param args the command line arguments
@@ -295,7 +309,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
 
-    private void setupTables() {
+    public void setupBookTable() {
         List<Book> books = BusBook.getInstance().findAllBooks();
         BookTableModel bookTableModel = new BookTableModel();
         bookTableModel.setData(books);
@@ -319,9 +333,14 @@ public class MainFrame extends javax.swing.JFrame {
             tbBook.getColumnModel().getColumn(4).setPreferredWidth(100);
             tbBook.getColumnModel().getColumn(5).setMinWidth(100);
             tbBook.getColumnModel().getColumn(5).setPreferredWidth(100);
-            tbBook.getColumnModel().getColumn(6).setMinWidth(50);
-            tbBook.getColumnModel().getColumn(6).setPreferredWidth(50);
+            tbBook.getColumnModel().getColumn(6).setMinWidth(100);
+            tbBook.getColumnModel().getColumn(6).setPreferredWidth(100);
+            tbBook.getColumnModel().getColumn(7).setMinWidth(50);
+            tbBook.getColumnModel().getColumn(7).setPreferredWidth(50);
         }
+        
+        TableColumnModel tableColumnModel = tbBook.getColumnModel();
+        tableColumnModel.getColumn(6).setCellRenderer(NumberRenderer.getIntegerRenderer());
         
         TableColumn typeCol = tbBook.getColumnModel().getColumn(2);
         JComboBox comboBox = new JComboBox();

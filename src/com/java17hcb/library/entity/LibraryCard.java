@@ -18,7 +18,7 @@ import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name="library_card")
-public class LibraryCard {
+public class LibraryCard implements Cloneable {
     
     public static class Type{
         public static final int X = 0;
@@ -220,4 +220,15 @@ public class LibraryCard {
         }
         this.finesReceipts.add(receipt);
     }
+    
+    @Override
+    public Object clone(){
+        Object cloneObject;
+        try{
+            return super.clone();
+        } catch(CloneNotSupportedException e){
+            e.printStackTrace();
+            return null;
+        }
+    }  
 }

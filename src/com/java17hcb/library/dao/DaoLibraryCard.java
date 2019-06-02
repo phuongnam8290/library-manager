@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -243,5 +244,41 @@ public class DaoLibraryCard {
             return 0;
         else
             return (daysBetween - 4) * LATE_FEE_PER_DAY;
+    }
+
+    public List<LibraryCard> findAllCards() {
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.getCurrentSession();
+        
+        try{
+            session.beginTransaction();
+            String hql = "FROM LibraryCard";
+            Query query = session.createQuery(hql);         
+            List<LibraryCard> cards = query.list();           
+            session.getTransaction().commit();    
+            return cards;
+        } catch(Exception e){
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }        
+    }
+
+    public boolean updateCard(LibraryCard modifiedCard) {
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.getCurrentSession();
+        
+        try{
+            session.beginTransaction();
+            session.saveOrUpdate(modifiedCard);
+            session.getTransaction().commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        } finally {
+            session.close();
+        }
+        return true;
     }
 }

@@ -1,4 +1,4 @@
-package com.java17hcb.library.utils.tablemodel;
+package com.java17hcb.library.utils.table;
 
 import com.java17hcb.library.bus.BusBook;
 import com.java17hcb.library.entity.Book;
@@ -24,25 +24,7 @@ public class BookTableModel extends AbstractTableModel {
     
     @Override
     public String getColumnName(int column) {
-        switch (column){
-            case 0:
-                return "ID";
-            case 1:
-                return "Title";
-            case 2:
-                return "Type";
-            case 3:
-                return "Author";
-            case 4:
-                return "Year";
-            case 5:
-                return "Publisher";
-            case 6:
-                return "Price";
-            case 7:
-                return "Copies";
-        }
-        return "";
+        return colNames[column];
     }
   
     @Override
@@ -68,10 +50,10 @@ public class BookTableModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        if(columnIndex == 1 || columnIndex == 2 || columnIndex == 3 || columnIndex == 4 || columnIndex == 5 || columnIndex == 6){
-            return true;
+        if(columnIndex == 0 || columnIndex == 7){
+            return false;
         }
-        return false;
+        return true;
     }
     
     @Override

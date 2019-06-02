@@ -81,4 +81,12 @@ public class BusLibraryCard {
     public boolean returnBook(int libraryCardId, List<Integer> returnBookIds){
         return DaoLibraryCard.getInstance().returnBook(libraryCardId, returnBookIds);
     }
+
+    public List<LibraryCard> findAllCards() {
+        return DaoLibraryCard.getInstance().findAllCards();
+    }
+    
+    public boolean updateCard(LibraryCard modifiedCard){
+        return DaoLibraryCard.getInstance().updateCard(modifiedCard);
+    }
 }

@@ -14,9 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 
@@ -188,7 +186,7 @@ public class LoginFrame extends javax.swing.JFrame {
                                         null);
             if(input == JOptionPane.OK_OPTION){
                 dispose();
-                MainFrame.showScreen();
+                //MainFrame.showScreen();
             }
         }
     }//GEN-LAST:event_btnLoginActionPerformed

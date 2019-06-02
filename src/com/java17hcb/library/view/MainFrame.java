@@ -6,11 +6,16 @@
 package com.java17hcb.library.view;
 
 import com.java17hcb.library.bus.BusBook;
+import com.java17hcb.library.bus.BusLibraryCard;
 import com.java17hcb.library.entity.Book;
+import com.java17hcb.library.entity.LibraryCard;
 import com.java17hcb.library.entity.Staff;
-import com.java17hcb.library.utils.tablemodel.BookTableModel;
+import com.java17hcb.library.utils.table.BoundDateTableEditor;
+import com.java17hcb.library.utils.table.BookTableModel;
 import com.java17hcb.library.utils.CurrentStaff;
-import com.java17hcb.library.utils.NumberRenderer;
+import com.java17hcb.library.utils.table.DateRenderer;
+import com.java17hcb.library.utils.table.NumberRenderer;
+import com.java17hcb.library.utils.table.CardTableModel;
 import java.awt.Image;
 import java.util.List;
 import javax.swing.DefaultCellEditor;
@@ -22,10 +27,6 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-/**
- *
- * @author labyr
- */
 public class MainFrame extends javax.swing.JFrame {
 
     /**
@@ -57,6 +58,9 @@ public class MainFrame extends javax.swing.JFrame {
         tbBook = new javax.swing.JTable();
         btnImport = new javax.swing.JButton();
         pnCard = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbCard = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -130,6 +134,9 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         tbBook.setColumnSelectionAllowed(true);
+        tbBook.setIntercellSpacing(new java.awt.Dimension(10, 1));
+        tbBook.setRowHeight(28);
+        tbBook.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         spnBook.setViewportView(tbBook);
         tbBook.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
@@ -157,23 +164,75 @@ public class MainFrame extends javax.swing.JFrame {
             pnBookLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnBookLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(spnBook, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(spnBook, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(btnImport)
-                .addContainerGap(116, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         tpnMain.addTab("Book", pnBook);
+
+        jButton1.setText("jButton1");
+
+        tbCard.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tbCard.setCellSelectionEnabled(true);
+        tbCard.setIntercellSpacing(new java.awt.Dimension(10, 0));
+        tbCard.setRowHeight(28);
+        tbCard.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(tbCard);
+        if (tbCard.getColumnModel().getColumnCount() > 0) {
+            tbCard.getColumnModel().getColumn(0).setMinWidth(50);
+            tbCard.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tbCard.getColumnModel().getColumn(1).setMinWidth(150);
+            tbCard.getColumnModel().getColumn(1).setPreferredWidth(150);
+            tbCard.getColumnModel().getColumn(2).setMinWidth(50);
+            tbCard.getColumnModel().getColumn(2).setPreferredWidth(50);
+            tbCard.getColumnModel().getColumn(3).setMinWidth(75);
+            tbCard.getColumnModel().getColumn(3).setPreferredWidth(75);
+            tbCard.getColumnModel().getColumn(4).setMinWidth(200);
+            tbCard.getColumnModel().getColumn(4).setPreferredWidth(200);
+            tbCard.getColumnModel().getColumn(5).setMinWidth(200);
+            tbCard.getColumnModel().getColumn(5).setPreferredWidth(200);
+            tbCard.getColumnModel().getColumn(6).setMinWidth(75);
+            tbCard.getColumnModel().getColumn(6).setPreferredWidth(75);
+            tbCard.getColumnModel().getColumn(7).setMinWidth(75);
+            tbCard.getColumnModel().getColumn(7).setPreferredWidth(75);
+            tbCard.getColumnModel().getColumn(8).setMinWidth(100);
+            tbCard.getColumnModel().getColumn(8).setPreferredWidth(100);
+        }
 
         javax.swing.GroupLayout pnCardLayout = new javax.swing.GroupLayout(pnCard);
         pnCard.setLayout(pnCardLayout);
         pnCardLayout.setHorizontalGroup(
             pnCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGroup(pnCardLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnCardLayout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE))
+                .addContainerGap())
         );
         pnCardLayout.setVerticalGroup(
             pnCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 467, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnCardLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
 
         tpnMain.addTab("Library Card", pnCard);
@@ -217,13 +276,16 @@ public class MainFrame extends javax.swing.JFrame {
             case 0:
                 setupBookTable();
                 break;
+            case 1:
+                setupCardTable();
+                break;
         }
     }//GEN-LAST:event_tpnMainStateChanged
 
     /**
      * @param args the command line arguments
      */
-    public static void showScreen(String... args) {
+    public static void main(String... args) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -257,6 +319,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnImport;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbAvatar;
     private javax.swing.JLabel lbBanner;
     private javax.swing.JLabel lbDivision;
@@ -267,6 +331,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel pnInfo;
     private javax.swing.JScrollPane spnBook;
     private javax.swing.JTable tbBook;
+    private javax.swing.JTable tbCard;
     private javax.swing.JTabbedPane tpnMain;
     // End of variables declaration//GEN-END:variables
 
@@ -275,9 +340,9 @@ public class MainFrame extends javax.swing.JFrame {
         setTitle("Login");
         setLocationRelativeTo(null);
         
-        if(!(CurrentStaff.getCurrentStaff().getDivision() == Staff.Division.THU_KHO)){
-            btnImport.setEnabled(false);
-        }
+//        if(!(CurrentStaff.getCurrentStaff().getDivision() == Staff.Division.THU_KHO)){
+//            btnImport.setEnabled(false);
+//        }
         
         // Set main image
         ImageIcon imageAvatar = new ImageIcon(getClass().getResource("/com/java17hcb/library/resource/user_avatar.png"));
@@ -340,7 +405,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
         
         TableColumnModel tableColumnModel = tbBook.getColumnModel();
-        tableColumnModel.getColumn(6).setCellRenderer(NumberRenderer.getIntegerRenderer());
+        tableColumnModel.getColumn(6).setCellRenderer(new NumberRenderer());
         
         TableColumn typeCol = tbBook.getColumnModel().getColumn(2);
         JComboBox comboBox = new JComboBox();
@@ -348,5 +413,52 @@ public class MainFrame extends javax.swing.JFrame {
         comboBox.addItem("B");
         comboBox.addItem("C");
         typeCol.setCellEditor(new DefaultCellEditor(comboBox));
+    }
+    
+    public void setupCardTable(){
+        List<LibraryCard> cards = BusLibraryCard.getInstance().findAllCards();
+        CardTableModel cardTableModel = new CardTableModel();
+        cardTableModel.setData(cards);
+        cardTableModel.setJFrame(this);
+        tbCard.setModel(cardTableModel);
+        
+        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(tbCard.getModel());
+        tbCard.setRowSorter(sorter);
+        
+        if (tbCard.getColumnModel().getColumnCount() > 0) {
+            tbCard.getColumnModel().getColumn(0).setMinWidth(50);
+            tbCard.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tbCard.getColumnModel().getColumn(1).setMinWidth(150);
+            tbCard.getColumnModel().getColumn(1).setPreferredWidth(150);
+            tbCard.getColumnModel().getColumn(2).setMinWidth(50);
+            tbCard.getColumnModel().getColumn(2).setPreferredWidth(50);
+            tbCard.getColumnModel().getColumn(3).setMinWidth(100);
+            tbCard.getColumnModel().getColumn(3).setPreferredWidth(100);
+            tbCard.getColumnModel().getColumn(4).setMinWidth(175);
+            tbCard.getColumnModel().getColumn(4).setPreferredWidth(175);
+            tbCard.getColumnModel().getColumn(5).setMinWidth(175);
+            tbCard.getColumnModel().getColumn(5).setPreferredWidth(175);
+            tbCard.getColumnModel().getColumn(6).setMinWidth(100);
+            tbCard.getColumnModel().getColumn(6).setPreferredWidth(100);
+            tbCard.getColumnModel().getColumn(7).setMinWidth(100);
+            tbCard.getColumnModel().getColumn(7).setPreferredWidth(100);
+            tbCard.getColumnModel().getColumn(8).setMinWidth(75);
+            tbCard.getColumnModel().getColumn(8).setPreferredWidth(75);
+        }
+        
+        TableColumnModel tableColumnModel = tbCard.getColumnModel();
+        tableColumnModel.getColumn(3).setCellRenderer(new DateRenderer());
+        tableColumnModel.getColumn(3).setCellEditor(new BoundDateTableEditor(BoundDateTableEditor.TYPE_CARD_DOB));       
+        tableColumnModel.getColumn(6).setCellRenderer(new DateRenderer());
+        tableColumnModel.getColumn(6).setCellEditor(new BoundDateTableEditor(BoundDateTableEditor.TYPE_CARD_CREATE));       
+        tableColumnModel.getColumn(7).setCellRenderer(new DateRenderer());
+        tableColumnModel.getColumn(7).setCellEditor(new BoundDateTableEditor(BoundDateTableEditor.TYPE_CARD_EXPIRE));       
+        tableColumnModel.getColumn(8).setCellRenderer(new NumberRenderer());    
+        
+        TableColumn typeCol = tbCard.getColumnModel().getColumn(2);
+        JComboBox comboBox = new JComboBox();
+        comboBox.addItem("X");
+        comboBox.addItem("Y");
+        typeCol.setCellEditor(new DefaultCellEditor(comboBox));    
     }
 }

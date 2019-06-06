@@ -1,14 +1,12 @@
 package com.java17hcb.library.utils;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 public class FormVerifier {
-    public static void verifyInput(JButton btnConfirm, JTextField input, JLabel err, String textFieldName) {
-        String inputString = input.getText();
+    public static void verifyInput(JButton btnConfirm, String inputString, JLabel err, String textFieldName) {
         if(inputString.trim().isEmpty()){
             err.setText(textFieldName + " cannot be empty");
             btnConfirm.setEnabled(false);

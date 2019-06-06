@@ -9,18 +9,22 @@ import com.java17hcb.library.bus.BusBook;
 import com.java17hcb.library.entity.Book;
 import com.java17hcb.library.utils.CurrentStaff;
 import com.java17hcb.library.utils.FormVerifier;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.text.JTextComponent;
 
 public class ImportDialog extends javax.swing.JDialog {
     private java.awt.Frame parent; 
-
+    private List<Book> books = BusBook.getInstance().findAllBooks();
     public ImportDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         this.parent = parent;
@@ -41,7 +45,6 @@ public class ImportDialog extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         lbTitle = new javax.swing.JLabel();
         lbAuthor = new javax.swing.JLabel();
-        tfTitle = new javax.swing.JTextField();
         tfAuthor = new javax.swing.JTextField();
         lbType = new javax.swing.JLabel();
         rbA = new javax.swing.JRadioButton();
@@ -51,6 +54,7 @@ public class ImportDialog extends javax.swing.JDialog {
         lbErrTitle = new javax.swing.JLabel();
         lbErrAuthor = new javax.swing.JLabel();
         snPrice = new javax.swing.JSpinner();
+        cbTitle = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         lbPublisher = new javax.swing.JLabel();
         tfPublisher = new javax.swing.JTextField();
@@ -73,12 +77,6 @@ public class ImportDialog extends javax.swing.JDialog {
         lbTitle.setText("Title");
 
         lbAuthor.setText("Author");
-
-        tfTitle.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tfTitleKeyReleased(evt);
-            }
-        });
 
         tfAuthor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -119,6 +117,15 @@ public class ImportDialog extends javax.swing.JDialog {
             }
         });
 
+        snPrice.setEditor(new javax.swing.JSpinner.NumberEditor(snPrice, ""));
+
+        cbTitle.setEditable(true);
+        cbTitle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbTitleActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -132,7 +139,6 @@ public class ImportDialog extends javax.swing.JDialog {
                     .addComponent(lbPrice, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tfTitle)
                     .addComponent(tfAuthor, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,7 +154,8 @@ public class ImportDialog extends javax.swing.JDialog {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(rbC))))
                             .addComponent(snPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 89, Short.MAX_VALUE)))
+                        .addGap(0, 89, Short.MAX_VALUE))
+                    .addComponent(cbTitle, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -157,7 +164,7 @@ public class ImportDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbTitle)
-                    .addComponent(tfTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbErrTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
@@ -176,7 +183,7 @@ public class ImportDialog extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbPrice)
                     .addComponent(snPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Publish Information"));
@@ -191,6 +198,9 @@ public class ImportDialog extends javax.swing.JDialog {
         });
 
         lbYear.setText("Year");
+
+        snYear.setModel(new javax.swing.SpinnerDateModel());
+        snYear.setEditor(new javax.swing.JSpinner.DateEditor(snYear, ""));
 
         lbErrPublisher.setForeground(new java.awt.Color(255, 51, 51));
         lbErrPublisher.setText(" ");
@@ -338,7 +348,8 @@ public class ImportDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
-        String title = tfTitle.getText();
+        String title = "";
+        //String title = tfTitle.getText();
         String author = tfAuthor.getText();
         long price = (Integer)snPrice.getValue();
         String publisher = tfPublisher.getText();
@@ -382,12 +393,8 @@ public class ImportDialog extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_btnOKActionPerformed
 
-    private void tfTitleKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfTitleKeyReleased
-        FormVerifier.verifyInput(btnOK, tfTitle, lbErrTitle, "Title");
-    }//GEN-LAST:event_tfTitleKeyReleased
-
     private void tfAuthorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfAuthorKeyReleased
-        FormVerifier.verifyInput(btnOK, tfAuthor, lbErrAuthor, "Author");
+        FormVerifier.verifyInput(btnOK, tfAuthor.getText(), lbErrAuthor, "Author");
     }//GEN-LAST:event_tfAuthorKeyReleased
 
     private void lbErrTitlePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_lbErrTitlePropertyChange
@@ -415,8 +422,46 @@ public class ImportDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_lbErrPublisherPropertyChange
 
     private void tfPublisherKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfPublisherKeyReleased
-        FormVerifier.verifyInput(btnOK, tfPublisher, lbErrPublisher, "Publisher");
+        FormVerifier.verifyInput(btnOK, tfPublisher.getText(), lbErrPublisher, "Publisher");
     }//GEN-LAST:event_tfPublisherKeyReleased
+
+    private void cbTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTitleActionPerformed
+        JComboBox cb = (JComboBox)evt.getSource();
+        String title = (String)cb.getSelectedItem();
+        for (Book book : books){
+            if(book.getTitle().equals(title)){
+                tfAuthor.setEnabled(false);
+                tfPublisher.setEnabled(false);               
+                snPrice.setEnabled(false);
+                snYear.setEnabled(false);
+                btnOK.setEnabled(true);
+                
+                tfAuthor.setText(book.getAuthor());
+                tfPublisher.setText(book.getPublisher());
+                snPrice.setValue(Integer.valueOf((int)book.getPrice()));
+                snYear.setValue(book.getPublishYear());
+                
+                lbErrTitle.setText("");
+                lbErrAuthor.setText("");
+                lbErrPublisher.setText("");
+                return;
+            }
+        }
+        
+        tfAuthor.setEnabled(true);
+        tfPublisher.setEnabled(true);               
+        snPrice.setEnabled(true);
+        snYear.setEnabled(true);
+        btnOK.setEnabled(false);
+        
+        tfAuthor.setText("");
+        tfPublisher.setText("");
+        snPrice.setValue(Integer.valueOf(5000));
+        snYear.setValue(new Date());
+        lbErrTitle.setText(" ");
+        lbErrAuthor.setText(" ");
+        lbErrPublisher.setText(" ");
+    }//GEN-LAST:event_cbTitleActionPerformed
     
     /**
      * @param args the command line arguments
@@ -464,6 +509,7 @@ public class ImportDialog extends javax.swing.JDialog {
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnOK;
     private javax.swing.ButtonGroup btngType;
+    private javax.swing.JComboBox<String> cbTitle;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -487,13 +533,26 @@ public class ImportDialog extends javax.swing.JDialog {
     private javax.swing.JTextField tfAuthor;
     private javax.swing.JTextField tfImportBy;
     private javax.swing.JTextField tfPublisher;
-    private javax.swing.JTextField tfTitle;
     // End of variables declaration//GEN-END:variables
 
     private void setupComponents(){
         setTitle("Import book");
         setLocationRelativeTo(null);
         btnOK.setEnabled(false);
+                
+        // Set data for cbTitle
+        for(Book book : books){
+            cbTitle.addItem(book.getTitle());
+        }
+        cbTitle.setSelectedItem(null);
+        
+        // Verify text enter to cbTitle
+        JTextComponent editor = (JTextComponent) cbTitle.getEditor().getEditorComponent();
+        editor.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent evt) {          
+               FormVerifier.verifyInput(btnOK, editor.getText(), lbErrTitle, "Title");
+            }
+         });
         
         // Set actionCommand for radio button
         rbA.setActionCommand("A");

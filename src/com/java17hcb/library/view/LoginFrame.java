@@ -186,17 +186,17 @@ public class LoginFrame extends javax.swing.JFrame {
                                         null);
             if(input == JOptionPane.OK_OPTION){
                 dispose();
-                MainFrame.showScreen();
+                //MainFrame.showScreen();
             }
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void tfUsernameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfUsernameKeyReleased
-        FormVerifier.verifyInput(btnLogin, tfUsername, lbErrUsername, "Username");
+        FormVerifier.verifyInput(btnLogin, tfUsername.getText(), lbErrUsername, "Username");
     }//GEN-LAST:event_tfUsernameKeyReleased
 
     private void tfPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfPasswordKeyReleased
-        FormVerifier.verifyInput(btnLogin, tfPassword, lbErrPassword, "Password");
+        FormVerifier.verifyInput(btnLogin, tfPassword.getText(), lbErrPassword, "Password");
     }//GEN-LAST:event_tfPasswordKeyReleased
 
     private void lbErrUsernamePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_lbErrUsernamePropertyChange

@@ -296,11 +296,11 @@ public class CreateCardDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void tfFullnameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfFullnameKeyReleased
-        FormVerifier.verifyInput(btnOK, tfFullname, lbErrFullname, "Fullname");
+        FormVerifier.verifyInput(btnOK, tfFullname.getText(), lbErrFullname, "Fullname");
     }//GEN-LAST:event_tfFullnameKeyReleased
 
     private void tfAddressKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfAddressKeyReleased
-        FormVerifier.verifyInput(btnOK, tfAddress, lbErrAddress, "Address");
+        FormVerifier.verifyInput(btnOK, tfAddress.getText(), lbErrAddress, "Address");
     }//GEN-LAST:event_tfAddressKeyReleased
 
     private void tfEmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfEmailKeyReleased

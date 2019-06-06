@@ -295,8 +295,8 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    //public static void main(String... args) {
-    public static void showScreen(){
+    public static void main(String... args) {
+    //public static void showScreen(){
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -351,13 +351,13 @@ public class MainFrame extends javax.swing.JFrame {
         setTitle("Login");
         setLocationRelativeTo(null);
         
-        if(!(CurrentStaff.getCurrentStaff().getDivision() == Staff.Division.THU_KHO)){
-            btnImport.setEnabled(false);
-        }
-        
-        if(!(CurrentStaff.getCurrentStaff().getDivision() == Staff.Division.THU_THU)){
-            btnCreate.setEnabled(false);
-        }
+//        if(!(CurrentStaff.getCurrentStaff().getDivision() == Staff.Division.THU_KHO)){
+//            btnImport.setEnabled(false);
+//        }
+//        
+//        if(!(CurrentStaff.getCurrentStaff().getDivision() == Staff.Division.THU_THU)){
+//            btnCreate.setEnabled(false);
+//        }
         
         // Set main image
         ImageIcon imageAvatar = new ImageIcon(getClass().getResource("/com/java17hcb/library/resource/user_avatar.png"));

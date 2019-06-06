@@ -124,6 +124,14 @@ public class CardTableModel extends AbstractTableModel{
                     break;
             }
             break;
+        case 8:
+            if((long)aValue == modifiedCard.getFinesFee()){
+                return;
+            }
+            else {
+                modifiedCard.setFinesFee((long)aValue);
+            }
+            break;
         case 3:
             if((DateUtils.asLocalDate(modifiedCard.getDateOfBirth())).equals((LocalDate)aValue)){
                 return;

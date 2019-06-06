@@ -186,7 +186,7 @@ public class LoginFrame extends javax.swing.JFrame {
                                         null);
             if(input == JOptionPane.OK_OPTION){
                 dispose();
-                //MainFrame.showScreen();
+                MainFrame.showScreen();
             }
         }
     }//GEN-LAST:event_btnLoginActionPerformed

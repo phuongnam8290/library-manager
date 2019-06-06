@@ -58,7 +58,7 @@ public class MainFrame extends javax.swing.JFrame {
         tbBook = new javax.swing.JTable();
         btnImport = new javax.swing.JButton();
         pnCard = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnCreate = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbCard = new javax.swing.JTable();
 
@@ -172,7 +172,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         tpnMain.addTab("Book", pnBook);
 
-        jButton1.setText("jButton1");
+        btnCreate.setText("Create");
+        btnCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateActionPerformed(evt);
+            }
+        });
 
         tbCard.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -220,7 +225,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(pnCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnCardLayout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnCreate)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE))
                 .addContainerGap())
@@ -231,7 +236,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(btnCreate)
                 .addContainerGap())
         );
 
@@ -282,10 +287,16 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tpnMainStateChanged
 
+    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
+        JDialog dialog = new CreateCardDialog(this, true);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnCreateActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String... args) {
+    //public static void main(String... args) {
+    public static void showScreen(){
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -318,8 +329,8 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnImport;
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbAvatar;
     private javax.swing.JLabel lbBanner;
@@ -340,9 +351,13 @@ public class MainFrame extends javax.swing.JFrame {
         setTitle("Login");
         setLocationRelativeTo(null);
         
-//        if(!(CurrentStaff.getCurrentStaff().getDivision() == Staff.Division.THU_KHO)){
-//            btnImport.setEnabled(false);
-//        }
+        if(!(CurrentStaff.getCurrentStaff().getDivision() == Staff.Division.THU_KHO)){
+            btnImport.setEnabled(false);
+        }
+        
+        if(!(CurrentStaff.getCurrentStaff().getDivision() == Staff.Division.THU_THU)){
+            btnCreate.setEnabled(false);
+        }
         
         // Set main image
         ImageIcon imageAvatar = new ImageIcon(getClass().getResource("/com/java17hcb/library/resource/user_avatar.png"));

@@ -1,6 +1,7 @@
 package com.java17hcb.library.entity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
@@ -74,16 +75,20 @@ public class LibraryCard implements Cloneable {
     public LibraryCard() {}
     
     public LibraryCard(String fullName, int type, Date dateOfBirth, 
-            String address, String email, Date createDate, 
-            Date expireDate, long finesFee) {
+            String address, String email) {
         this.fullName = fullName;
         this.type = type;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
         this.email = email;
-        this.createDate = createDate;
-        this.expireDate = expireDate;
-        this.finesFee = finesFee;
+        this.createDate = new Date();
+        
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(createDate);
+        cal.add(Calendar.MONTH, 6);
+        this.expireDate = cal.getTime();
+        
+        this.finesFee = 0;
     }
 
     public int getId() {

@@ -20,6 +20,17 @@ public class FormVerifier {
         }
     }
     
+    public static void verifyEmail(JButton btnConfirm, JTextField input, JLabel err){
+        String emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        String inputString = input.getText();
+        if(!inputString.matches(emailPattern)){
+            err.setText("This e-mail address is not valid");
+            btnConfirm.setEnabled(false);
+        } else {
+            err.setText("");
+        }
+    }
+    
     public static boolean enableBtnConfirm(List<String> errMessages) {        
         for(String err : errMessages){
             if(!err.isEmpty()){

@@ -32,7 +32,10 @@ public class DaoLibraryCard {
         return instance;
     }
     
-    public boolean createLibraryCard(LibraryCard card){
+    public static final int CREATE_SUCCESS = 1;
+    public static final int CREATE_UNKNOWN_ERROR = -1;
+    
+    public int createLibraryCard(LibraryCard card){
         SessionFactory sessionFactory = HibernateUtil.getInstance();
         Session session = sessionFactory.getCurrentSession();
         
@@ -47,12 +50,12 @@ public class DaoLibraryCard {
             session.getTransaction().commit();
         } catch(Exception e){
             e.printStackTrace();
-            return false;
+            return CREATE_UNKNOWN_ERROR;
         } finally {
             session.close();
         }
         
-        return true;
+        return CREATE_SUCCESS;
     }
     
     public static final int NUMBER_OF_BOOK_RENTED_LIMIT = 5;

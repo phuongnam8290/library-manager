@@ -175,6 +175,35 @@ public class DaoLibraryCard {
         }        
     }
     
+    public List<Book> getRentedBook(int libraryCardId){
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.getCurrentSession();
+        
+        try{
+            session.beginTransaction();
+            
+            LibraryCard card = session.get(LibraryCard.class, libraryCardId);
+            List<Book> rentedBook = new ArrayList<>();
+            
+            for(RentReceipt receipt : card.getRentReceipts()){
+                for(BookRentReceipt record : receipt.getBookRentReceipts()){
+                    if(record.getStatus() == BookRentReceipt.Status.NOT_RETURN){
+                        rentedBook.add(record.getBook());
+                    }
+                }
+            }
+            
+            session.getTransaction().commit();    
+            return rentedBook;
+            
+        } catch(Exception e){
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }        
+    }
+    
     public boolean returnBook(int libraryCardId, List<Integer> returnBookIds) {
         SessionFactory sessionFactory = HibernateUtil.getInstance();
         Session session = sessionFactory.getCurrentSession();
@@ -212,7 +241,7 @@ public class DaoLibraryCard {
 //            returnReceipt.setLostFee(returnReceipt.getLostFee() + record.getBook().getPrice());
 //        }
         
-//        card.setFinesFee(card.getFinesFee() + returnReceipt.getLateFee() + returnReceipt.getLostFee());
+        card.setFinesFee(card.getFinesFee() + returnReceipt.getLateFee());
         session.save(returnReceipt);
         session.getTransaction().commit();    
         return true;

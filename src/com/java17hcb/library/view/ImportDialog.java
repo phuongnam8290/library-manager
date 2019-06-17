@@ -544,6 +544,7 @@ public class ImportDialog extends javax.swing.JDialog {
         for(Book book : books){
             cbTitle.addItem(book.getTitle());
         }
+
         cbTitle.setSelectedItem(null);
         
         // Verify text enter to cbTitle

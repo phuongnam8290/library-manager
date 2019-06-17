@@ -1,6 +1,7 @@
 package com.java17hcb.library.bus;
 
 import com.java17hcb.library.dao.DaoLibraryCard;
+import com.java17hcb.library.entity.Book;
 import com.java17hcb.library.entity.LibraryCard;
 import com.java17hcb.library.entity.Staff;
 import com.java17hcb.library.utils.CurrentStaff;
@@ -76,6 +77,10 @@ public class BusLibraryCard {
      */
     public boolean rentBooks(int libraryCardId, List<Integer> bookIds){
         return DaoLibraryCard.getInstance().rentBooks(libraryCardId, bookIds);
+    }
+    
+    public List<Book> getRentedBook(int libraryCardId){
+        return DaoLibraryCard.getInstance().getRentedBook(libraryCardId);
     }
     
     public boolean returnBook(int libraryCardId, List<Integer> returnBookIds){

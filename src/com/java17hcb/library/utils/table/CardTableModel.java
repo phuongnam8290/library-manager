@@ -22,6 +22,10 @@ public class CardTableModel extends AbstractTableModel{
         this.data = data;
     } 
     
+    public LibraryCard getData(int row){
+        return data.get(row);
+    }
+    
     @Override
     public String getColumnName(int column) {
         return colNames[column];

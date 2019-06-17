@@ -86,6 +86,25 @@ public class DaoBook {
         }        
     }
     
+    public List<Book> findAllAvailableBooks(){        
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.getCurrentSession();
+        
+        try{
+            session.beginTransaction();
+            String hql = "FROM Book B WHERE B.remainCopy > 0";
+            Query query = session.createQuery(hql);         
+            List<Book> books = query.list();           
+            session.getTransaction().commit();    
+            return books;
+        } catch(Exception e){
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }        
+    }
+    
     public Book findBookById(int id) {
         SessionFactory sessionFactory = HibernateUtil.getInstance();
         Session session = sessionFactory.getCurrentSession();

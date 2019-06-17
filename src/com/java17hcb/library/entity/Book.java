@@ -178,10 +178,7 @@ public class Book implements Cloneable{
     
     @Override
     public String toString() {
-        return "Book{" + "id=" + id + ", title=" + title + ", type=" + type + ", author=" 
-                + author + ", publishYear=" + publishYear + ", publisher=" + publisher 
-                + ", price=" + price + ", remainCopy=" + remainCopy + ", bookImportRecords=" 
-                + bookImportRecords + '}';
+        return this.title;
     }
     
     public void importBook (BookImport record){

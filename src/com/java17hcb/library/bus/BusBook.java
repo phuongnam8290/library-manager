@@ -24,6 +24,10 @@ public class BusBook {
         return DaoBook.getInstance().findAllBooks();
     }
     
+    public List<Book> findAllAvailableBooks(){
+        return DaoBook.getInstance().findAllAvailableBooks();
+    }
+    
     public Book findBookById(int id){
         return DaoBook.getInstance().findBookById(id);
     }

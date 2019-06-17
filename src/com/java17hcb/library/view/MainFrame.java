@@ -22,6 +22,8 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
@@ -61,6 +63,8 @@ public class MainFrame extends javax.swing.JFrame {
         btnCreate = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbCard = new javax.swing.JTable();
+        btnRent = new javax.swing.JButton();
+        btnReturn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -217,6 +221,22 @@ public class MainFrame extends javax.swing.JFrame {
             tbCard.getColumnModel().getColumn(8).setPreferredWidth(100);
         }
 
+        btnRent.setText("Rent Book");
+        btnRent.setEnabled(false);
+        btnRent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRentActionPerformed(evt);
+            }
+        });
+
+        btnReturn.setText("Return Book");
+        btnReturn.setEnabled(false);
+        btnReturn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReturnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnCardLayout = new javax.swing.GroupLayout(pnCard);
         pnCard.setLayout(pnCardLayout);
         pnCardLayout.setHorizontalGroup(
@@ -226,17 +246,27 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(pnCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnCardLayout.createSequentialGroup()
                         .addComponent(btnCreate)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRent)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnReturn)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE))
                 .addContainerGap())
         );
+
+        pnCardLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnCreate, btnRent, btnReturn});
+
         pnCardLayout.setVerticalGroup(
             pnCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnCardLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(btnCreate)
+                .addGroup(pnCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCreate)
+                    .addComponent(btnRent)
+                    .addComponent(btnReturn))
                 .addContainerGap())
         );
 
@@ -292,6 +322,23 @@ public class MainFrame extends javax.swing.JFrame {
         dialog.setVisible(true);
     }//GEN-LAST:event_btnCreateActionPerformed
 
+    private void btnRentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRentActionPerformed
+        // Determine which card being selected
+        int selectedRowIndex = tbCard.getSelectedRow();
+        LibraryCard card = ((CardTableModel)tbCard.getModel()).getData(selectedRowIndex);
+        
+        JDialog dialog = new RentBookDialog(this, true, card);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnRentActionPerformed
+
+    private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
+        int selectedRowIndex = tbCard.getSelectedRow();
+        LibraryCard card = ((CardTableModel)tbCard.getModel()).getData(selectedRowIndex);
+        
+        JDialog dialog = new ReturnBookDialog(this, true, card);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnReturnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -331,6 +378,8 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnImport;
+    private javax.swing.JButton btnRent;
+    private javax.swing.JButton btnReturn;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbAvatar;
     private javax.swing.JLabel lbBanner;
@@ -475,5 +524,19 @@ public class MainFrame extends javax.swing.JFrame {
         comboBox.addItem("X");
         comboBox.addItem("Y");
         typeCol.setCellEditor(new DefaultCellEditor(comboBox));    
+        
+        // Set enable property for btnRent & btnReturn based on table being selected or not
+        tbCard.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if(tbCard.getSelectionModel().isSelectionEmpty()){
+                    btnRent.setEnabled(false);
+                    btnReturn.setEnabled(false);
+                } else {
+                btnRent.setEnabled(true);
+                btnReturn.setEnabled(true);
+                }
+            }         
+        });
     }
 }

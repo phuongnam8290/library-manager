@@ -9,14 +9,10 @@ import com.java17hcb.library.bus.BusLibraryCard;
 import com.java17hcb.library.bus.BusStaff;
 import com.java17hcb.library.entity.Book;
 import com.java17hcb.library.entity.LibraryCard;
-import com.java17hcb.library.entity.Staff_;
 import java.awt.Component;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;
-
-import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;

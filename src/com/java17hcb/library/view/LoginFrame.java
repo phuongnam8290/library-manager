@@ -44,11 +44,11 @@ public class LoginFrame extends javax.swing.JFrame {
         lbUserName = new javax.swing.JLabel();
         lbPassword = new javax.swing.JLabel();
         tfUsername = new javax.swing.JTextField();
-        tfPassword = new javax.swing.JTextField();
         lbErrUsername = new javax.swing.JLabel();
         lbErrPassword = new javax.swing.JLabel();
         btnLogin = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
+        pfPassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -59,12 +59,6 @@ public class LoginFrame extends javax.swing.JFrame {
         tfUsername.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 tfUsernameKeyReleased(evt);
-            }
-        });
-
-        tfPassword.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tfPasswordKeyReleased(evt);
             }
         });
 
@@ -98,6 +92,12 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         });
 
+        pfPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                pfPasswordKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -111,24 +111,25 @@ public class LoginFrame extends javax.swing.JFrame {
                     .addComponent(lbPassword, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbErrUsername)
-                            .addComponent(tfUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(29, 29, 29)
-                                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lbErrPassword)
-                                .addComponent(tfPassword)))))
-                .addContainerGap(36, Short.MAX_VALUE))
+                        .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(lbErrPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(pfPassword))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbErrUsername)
+                                    .addComponent(tfUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE))))))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {tfPassword, tfUsername});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnExit, btnLogin});
 
@@ -146,16 +147,16 @@ public class LoginFrame extends javax.swing.JFrame {
                         .addComponent(lbErrUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbPassword))
+                            .addComponent(lbPassword)
+                            .addComponent(pfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lbErrPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lbIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLogin)
                     .addComponent(btnExit))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnExit, btnLogin});
@@ -168,7 +169,8 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        Staff currentStaff = BusStaff.getInstance().login(tfUsername.getText(), tfPassword.getText());
+        //Staff currentStaff = BusStaff.getInstance().login(tfUsername.getText(), pfPassword.getPassword().toString());
+        Staff currentStaff = BusStaff.getInstance().login(tfUsername.getText(), pfPassword.getText());
         if(currentStaff == null){
             JOptionPane.showMessageDialog(this, 
                                         "Cannot find account in database. Plsease check yout username / password",
@@ -195,10 +197,6 @@ public class LoginFrame extends javax.swing.JFrame {
         FormVerifier.verifyInput(btnLogin, tfUsername.getText(), lbErrUsername, "Username");
     }//GEN-LAST:event_tfUsernameKeyReleased
 
-    private void tfPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfPasswordKeyReleased
-        FormVerifier.verifyInput(btnLogin, tfPassword.getText(), lbErrPassword, "Password");
-    }//GEN-LAST:event_tfPasswordKeyReleased
-
     private void lbErrUsernamePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_lbErrUsernamePropertyChange
         List<String> errMessages = new ArrayList<>();
         errMessages.add(lbErrUsername.getText());
@@ -212,6 +210,10 @@ public class LoginFrame extends javax.swing.JFrame {
         errMessages.add(lbErrPassword.getText());
         btnLogin.setEnabled(FormVerifier.enableBtnConfirm(errMessages));
     }//GEN-LAST:event_lbErrPasswordPropertyChange
+
+    private void pfPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pfPasswordKeyReleased
+        FormVerifier.verifyInput(btnLogin, pfPassword.getText(), lbErrPassword, "Password");
+    }//GEN-LAST:event_pfPasswordKeyReleased
 
     /**
      * @param args the command line arguments
@@ -256,7 +258,7 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lbIcon;
     private javax.swing.JLabel lbPassword;
     private javax.swing.JLabel lbUserName;
-    private javax.swing.JTextField tfPassword;
+    private javax.swing.JPasswordField pfPassword;
     private javax.swing.JTextField tfUsername;
     // End of variables declaration//GEN-END:variables
     

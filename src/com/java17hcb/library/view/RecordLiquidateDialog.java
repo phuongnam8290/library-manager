@@ -6,27 +6,19 @@
 package com.java17hcb.library.view;
 
 import com.java17hcb.library.bus.BusBook;
-import com.java17hcb.library.bus.BusLibraryCard;
 import com.java17hcb.library.bus.BusStaff;
 import com.java17hcb.library.entity.Book;
-import com.java17hcb.library.entity.LibraryCard;
 import com.java17hcb.library.entity.LiquidateHistory;
-import com.java17hcb.library.entity.Staff_;
 import com.java17hcb.library.utils.CurrentStaff;
-import java.awt.Component;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;
 import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
 
-import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
 /**

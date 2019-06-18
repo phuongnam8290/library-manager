@@ -72,6 +72,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbStaff = new javax.swing.JTable();
+        btnCreateStaff = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -347,13 +348,24 @@ public class MainFrame extends javax.swing.JFrame {
             tbStaff.getColumnModel().getColumn(8).setPreferredWidth(100);
         }
 
+        btnCreateStaff.setText("Create Staff");
+        btnCreateStaff.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateStaffActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnCreateStaff)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -361,7 +373,9 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
-                .addGap(56, 56, 56))
+                .addGap(18, 18, 18)
+                .addComponent(btnCreateStaff)
+                .addContainerGap())
         );
 
         pnStaff.addTab("Staff", jPanel1);
@@ -465,6 +479,11 @@ public class MainFrame extends javax.swing.JFrame {
         dialog.setVisible(true);
     }//GEN-LAST:event_btnFinesReceiptActionPerformed
 
+    private void btnCreateStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateStaffActionPerformed
+        JDialog dialog = new CreateStaffDialog(this, true);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnCreateStaffActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -503,6 +522,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreate;
+    private javax.swing.JButton btnCreateStaff;
     private javax.swing.JButton btnFinesReceipt;
     private javax.swing.JButton btnImport;
     private javax.swing.JButton btnRecordLiquidate;
@@ -539,6 +559,10 @@ public class MainFrame extends javax.swing.JFrame {
         
         if(!(CurrentStaff.getCurrentStaff().getDivision() == Staff.Division.THU_THU)){
             btnCreate.setEnabled(false);
+        }
+        
+        if(!(CurrentStaff.getCurrentStaff().getDivision() == Staff.Division.ADMIN)){
+            btnCreateStaff.setEnabled(false);
         }
                 
         // Set main image

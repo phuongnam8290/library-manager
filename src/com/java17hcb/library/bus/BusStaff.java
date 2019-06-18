@@ -29,6 +29,9 @@ public class BusStaff {
         return DaoStaff.getInstance().login(username, password);
     }
     
+    public static final int CREATE_ACCOUNT_EXIST = -1;
+    public static final int CREATE_SUCCESS = 0;
+    
     /**
      * Create new staff object from parameters and save to db
      * @param username staff's username
@@ -42,18 +45,18 @@ public class BusStaff {
      * @param phone staff's phone
      * @return message to inform save status
      */
-    public String createStaff(String username, String password, String fullName, Date dateOfBirth, 
+    public int createStaff(String username, String password, String fullName, Date dateOfBirth, 
                             int diploma, int position, int division, String address,
                             String phone){
         
         if(DaoStaff.getInstance().isExist(username)){
-            return "This account already exist. Please choose another username";
+            return CREATE_ACCOUNT_EXIST;
         } else {
             Staff staff = new Staff(username, password, fullName, dateOfBirth, 
                                     diploma, position, division, address, phone);       
             DaoStaff.getInstance().createStaff(staff);
             
-            return "Account created!";
+            return CREATE_SUCCESS;
         }
     }
     

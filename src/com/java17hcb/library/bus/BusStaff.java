@@ -122,7 +122,7 @@ public class BusStaff {
      *        -4: Unknown error
      */
     public int recordLostBook(int libraryCardId, int bookId, long finesFee){
-        if(CurrentStaff.getCurrentStaff().getDivision() != Staff.Division.THU_THU){
+        if(CurrentStaff.getCurrentStaff().getDivision() != Staff.Division.THU_QUY){
             return CURRENT_STAFF_DONT_HAVE_PERMISSION;
         } else {
             return DaoStaff.getInstance().recordLostBook(libraryCardId, bookId, finesFee);

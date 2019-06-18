@@ -59,12 +59,14 @@ public class MainFrame extends javax.swing.JFrame {
         spnBook = new javax.swing.JScrollPane();
         tbBook = new javax.swing.JTable();
         btnImport = new javax.swing.JButton();
+        btnRecordLiquidate = new javax.swing.JButton();
         pnCard = new javax.swing.JPanel();
         btnCreate = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbCard = new javax.swing.JTable();
         btnRent = new javax.swing.JButton();
         btnReturn = new javax.swing.JButton();
+        btnRecordLost = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -151,6 +153,13 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        btnRecordLiquidate.setText("Record Liquidate");
+        btnRecordLiquidate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRecordLiquidateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnBookLayout = new javax.swing.GroupLayout(pnBook);
         pnBook.setLayout(pnBookLayout);
         pnBookLayout.setHorizontalGroup(
@@ -161,16 +170,23 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(spnBook, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
                     .addGroup(pnBookLayout.createSequentialGroup()
                         .addComponent(btnImport)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRecordLiquidate)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
+
+        pnBookLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnImport, btnRecordLiquidate});
+
         pnBookLayout.setVerticalGroup(
             pnBookLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnBookLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(spnBook, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(btnImport)
+                .addGroup(pnBookLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnImport)
+                    .addComponent(btnRecordLiquidate))
                 .addContainerGap())
         );
 
@@ -237,6 +253,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        btnRecordLost.setText("Record Lost");
+        btnRecordLost.setEnabled(false);
+        btnRecordLost.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRecordLostActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnCardLayout = new javax.swing.GroupLayout(pnCard);
         pnCard.setLayout(pnCardLayout);
         pnCardLayout.setHorizontalGroup(
@@ -250,12 +274,14 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(btnRent)
                         .addGap(18, 18, 18)
                         .addComponent(btnReturn)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRecordLost)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        pnCardLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnCreate, btnRent, btnReturn});
+        pnCardLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnCreate, btnRecordLost, btnRent, btnReturn});
 
         pnCardLayout.setVerticalGroup(
             pnCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -266,7 +292,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(pnCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCreate)
                     .addComponent(btnRent)
-                    .addComponent(btnReturn))
+                    .addComponent(btnReturn)
+                    .addComponent(btnRecordLost))
                 .addContainerGap())
         );
 
@@ -339,11 +366,24 @@ public class MainFrame extends javax.swing.JFrame {
         dialog.setVisible(true);
     }//GEN-LAST:event_btnReturnActionPerformed
 
+    private void btnRecordLostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecordLostActionPerformed
+        int selectedRowIndex = tbCard.getSelectedRow();
+        LibraryCard card = ((CardTableModel)tbCard.getModel()).getData(selectedRowIndex);
+        
+        JDialog dialog = new RecordLostDialog(this, true, card);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnRecordLostActionPerformed
+
+    private void btnRecordLiquidateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecordLiquidateActionPerformed
+        JDialog dialog = new RecordLiquidateDialog(this, true);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnRecordLiquidateActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String... args) {
-    //public static void showScreen(){
+    //public static void main(String... args) {
+    public static void showScreen(){
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -378,6 +418,8 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnImport;
+    private javax.swing.JButton btnRecordLiquidate;
+    private javax.swing.JButton btnRecordLost;
     private javax.swing.JButton btnRent;
     private javax.swing.JButton btnReturn;
     private javax.swing.JScrollPane jScrollPane1;
@@ -400,14 +442,15 @@ public class MainFrame extends javax.swing.JFrame {
         setTitle("Login");
         setLocationRelativeTo(null);
         
-//        if(!(CurrentStaff.getCurrentStaff().getDivision() == Staff.Division.THU_KHO)){
-//            btnImport.setEnabled(false);
-//        }
-//        
-//        if(!(CurrentStaff.getCurrentStaff().getDivision() == Staff.Division.THU_THU)){
-//            btnCreate.setEnabled(false);
-//        }
+        if(!(CurrentStaff.getCurrentStaff().getDivision() == Staff.Division.THU_KHO)){
+            btnImport.setEnabled(false);
+            btnRecordLiquidate.setEnabled(false);
+        }
         
+        if(!(CurrentStaff.getCurrentStaff().getDivision() == Staff.Division.THU_THU)){
+            btnCreate.setEnabled(false);
+        }
+                
         // Set main image
         ImageIcon imageAvatar = new ImageIcon(getClass().getResource("/com/java17hcb/library/resource/user_avatar.png"));
         ImageIcon imageBanner = new ImageIcon(getClass().getResource("/com/java17hcb/library/resource/banner.jpg"));
@@ -532,7 +575,13 @@ public class MainFrame extends javax.swing.JFrame {
                 if(tbCard.getSelectionModel().isSelectionEmpty()){
                     btnRent.setEnabled(false);
                     btnReturn.setEnabled(false);
+                    btnRecordLost.setEnabled(false);
                 } else {
+                    if(CurrentStaff.getCurrentStaff().getDivision() == Staff.Division.THU_QUY){
+                        btnRecordLost.setEnabled(true);
+                    } else{
+                        btnRecordLost.setEnabled(false);
+                    }
                 btnRent.setEnabled(true);
                 btnReturn.setEnabled(true);
                 }

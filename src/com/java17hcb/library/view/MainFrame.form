@@ -194,7 +194,9 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="spnBook" pref="988" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="btnImport" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnImport" linkSize="3" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="btnRecordLiquidate" linkSize="3" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -208,7 +210,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="spnBook" pref="425" max="32767" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btnImport" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btnImport" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnRecordLiquidate" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -250,6 +255,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnImportActionPerformed"/>
               </Events>
             </Component>
+            <Component class="javax.swing.JButton" name="btnRecordLiquidate">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Record Liquidate"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRecordLiquidateActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="pnCard">
@@ -273,6 +286,8 @@
                               <Component id="btnRent" linkSize="1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="btnReturn" linkSize="1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="btnRecordLost" linkSize="1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane1" pref="988" max="32767" attributes="0"/>
@@ -291,6 +306,7 @@
                           <Component id="btnCreate" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnRent" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnReturn" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnRecordLost" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -398,6 +414,15 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReturnActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnRecordLost">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Record Lost"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRecordLostActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

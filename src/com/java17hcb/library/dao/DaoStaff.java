@@ -96,6 +96,28 @@ public class DaoStaff {
         return staff != null;
     }
     
+    public List<Staff> findAllStaff(){
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.getCurrentSession();
+        
+        try{
+            session.beginTransaction();
+            
+            String sql = "FROM Staff S ";            
+            Query query = session.createQuery(sql);
+            List<Staff> staffs = query.list();
+            
+            session.getTransaction().commit();
+            
+            return staffs;
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+    
     /**
      * Save new staff record to db
      * @param staff staff record need to save
@@ -244,5 +266,22 @@ public class DaoStaff {
             session.close();
         }
         return RECORD_LOST_SUCCESS;
+    }
+    
+        public boolean updateStaff(Staff modifiedStaff) {
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.getCurrentSession();
+        
+        try{
+            session.beginTransaction();
+            session.saveOrUpdate(modifiedStaff);
+            session.getTransaction().commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        } finally {
+            session.close();
+        }
+        return true;
     }
 }

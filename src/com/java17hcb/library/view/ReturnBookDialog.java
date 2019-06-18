@@ -68,9 +68,9 @@ public class ReturnBookDialog extends javax.swing.JDialog {
 
         lbCreatedDate.setText("Return Date");
 
-        tfReader.setEnabled(false);
+        tfReader.setEditable(false);
 
-        tfReturnDate.setEnabled(false);
+        tfReturnDate.setEditable(false);
 
         javax.swing.GroupLayout pnInfoLayout = new javax.swing.GroupLayout(pnInfo);
         pnInfo.setLayout(pnInfoLayout);

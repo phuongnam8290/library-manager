@@ -76,9 +76,9 @@ public class RecordLostDialog extends javax.swing.JDialog {
 
         lbLostedDate.setText("Losted Date");
 
-        tfReader.setEnabled(false);
+        tfReader.setEditable(false);
 
-        tfLostedDate.setEnabled(false);
+        tfLostedDate.setEditable(false);
 
         lbFinesFee.setText("Fines Fee");
 

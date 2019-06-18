@@ -66,9 +66,9 @@ public class RentBookDialog extends javax.swing.JDialog {
 
         lbRentDate.setText("Rent Date");
 
-        tfReader.setEnabled(false);
+        tfReader.setEditable(false);
 
-        tfRentDate.setEnabled(false);
+        tfRentDate.setEditable(false);
 
         javax.swing.GroupLayout pnReceiptLayout = new javax.swing.GroupLayout(pnReceipt);
         pnReceipt.setLayout(pnReceiptLayout);

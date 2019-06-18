@@ -4,6 +4,7 @@ import com.java17hcb.library.dao.DaoStaff;
 import com.java17hcb.library.entity.Staff;
 import com.java17hcb.library.utils.CurrentStaff;
 import java.util.Date;
+import java.util.List;
 
 public class BusStaff {
     private static BusStaff instance;
@@ -54,6 +55,10 @@ public class BusStaff {
             
             return "Account created!";
         }
+    }
+    
+    public List<Staff> findAllStaff(){
+        return DaoStaff.getInstance().findAllStaff();
     }
     
     public static final int PAYMENT_SUCCESS = 1;
@@ -122,10 +127,14 @@ public class BusStaff {
      *        -4: Unknown error
      */
     public int recordLostBook(int libraryCardId, int bookId, long finesFee){
-        if(CurrentStaff.getCurrentStaff().getDivision() != Staff.Division.THU_QUY){
+        if(CurrentStaff.getCurrentStaff().getDivision() != Staff.Division.THU_THU){
             return CURRENT_STAFF_DONT_HAVE_PERMISSION;
         } else {
             return DaoStaff.getInstance().recordLostBook(libraryCardId, bookId, finesFee);
         }
+    }
+    
+    public boolean updateStaff(Staff modifiedStaff){
+        return DaoStaff.getInstance().updateStaff(modifiedStaff);
     }
 }

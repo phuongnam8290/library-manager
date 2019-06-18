@@ -29,8 +29,10 @@ public class FormVerifier {
         }
     }
     
-    public static boolean enableBtnConfirm(List<String> errMessages) {        
+    public static boolean enableBtnConfirm(List<String> errMessages) {       
+        System.out.println("ErrMessagesList");
         for(String err : errMessages){
+            System.out.println("\'" + err + "\'");
             if(!err.isEmpty()){
                 return false;
             }

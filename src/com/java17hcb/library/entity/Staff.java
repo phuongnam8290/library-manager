@@ -18,7 +18,7 @@ import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "staff")
-public class Staff implements Serializable{
+public class Staff implements Serializable, Cloneable{
     
     public static class Diploma{
         public static final int TU_TAI = 0;
@@ -34,6 +34,7 @@ public class Staff implements Serializable{
         public static final int THU_KHO = 1;
         public static final int THU_QUY = 2;
         public static final int BAN_GIAM_DOC = 3;
+        public static final int ADMIN = 4;
     }
     
     public static class Position{
@@ -278,4 +279,15 @@ public class Staff implements Serializable{
         }
         this.finesReceipts.add(receipt);
     }
+    
+    @Override
+    public Object clone(){
+        Object cloneObject;
+        try{
+            return super.clone();
+        } catch(CloneNotSupportedException e){
+            e.printStackTrace();
+            return null;
+        }
+    }   
 }

@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 public class BoundDateTableEditor extends DateTableEditor{
     public static int TYPE_CARD_DOB = 0;
+    public static int TYPE_STAFF_DOB = 3;
     public static int TYPE_CARD_CREATE = 1;
     public static int TYPE_CARD_EXPIRE = 2;
     
@@ -15,6 +16,10 @@ public class BoundDateTableEditor extends DateTableEditor{
         if(type == TYPE_CARD_DOB){
             LocalDate today = LocalDate.now();
             settings.setDateRangeLimits(today.minusYears(55), today.minusYears(18));
+        }
+        if (type == TYPE_STAFF_DOB){
+            LocalDate today = LocalDate.now();
+            settings.setDateRangeLimits(today.minusYears(65), today.minusYears(18));
         }
         settings.setFormatForDatesCommonEra("dd-MM-yyyy");
         settings.setAllowKeyboardEditing(false);

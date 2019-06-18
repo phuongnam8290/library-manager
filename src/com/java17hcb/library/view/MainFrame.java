@@ -7,6 +7,7 @@ package com.java17hcb.library.view;
 
 import com.java17hcb.library.bus.BusBook;
 import com.java17hcb.library.bus.BusLibraryCard;
+import com.java17hcb.library.bus.BusStaff;
 import com.java17hcb.library.entity.Book;
 import com.java17hcb.library.entity.LibraryCard;
 import com.java17hcb.library.entity.Staff;
@@ -16,12 +17,14 @@ import com.java17hcb.library.utils.CurrentStaff;
 import com.java17hcb.library.utils.table.DateRenderer;
 import com.java17hcb.library.utils.table.NumberRenderer;
 import com.java17hcb.library.utils.table.CardTableModel;
+import com.java17hcb.library.utils.table.StaffTableModel;
 import java.awt.Image;
 import java.util.List;
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
@@ -31,9 +34,7 @@ import javax.swing.table.TableRowSorter;
 
 public class MainFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainFrame
-     */
+    private LibraryCard selectedCard;
     public MainFrame() {
         initComponents();
         setupComponents();
@@ -54,7 +55,7 @@ public class MainFrame extends javax.swing.JFrame {
         lbName = new javax.swing.JLabel();
         pnBanner = new javax.swing.JPanel();
         lbBanner = new javax.swing.JLabel();
-        tpnMain = new javax.swing.JTabbedPane();
+        pnStaff = new javax.swing.JTabbedPane();
         pnBook = new javax.swing.JPanel();
         spnBook = new javax.swing.JScrollPane();
         tbBook = new javax.swing.JTable();
@@ -67,6 +68,10 @@ public class MainFrame extends javax.swing.JFrame {
         btnRent = new javax.swing.JButton();
         btnReturn = new javax.swing.JButton();
         btnRecordLost = new javax.swing.JButton();
+        btnFinesReceipt = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbStaff = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -133,9 +138,9 @@ public class MainFrame extends javax.swing.JFrame {
             .addComponent(lbBanner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        tpnMain.addChangeListener(new javax.swing.event.ChangeListener() {
+        pnStaff.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                tpnMainStateChanged(evt);
+                pnStaffStateChanged(evt);
             }
         });
 
@@ -190,7 +195,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        tpnMain.addTab("Book", pnBook);
+        pnStaff.addTab("Book", pnBook);
 
         btnCreate.setText("Create");
         btnCreate.addActionListener(new java.awt.event.ActionListener() {
@@ -211,7 +216,6 @@ public class MainFrame extends javax.swing.JFrame {
 
             }
         ));
-        tbCard.setCellSelectionEnabled(true);
         tbCard.setIntercellSpacing(new java.awt.Dimension(10, 0));
         tbCard.setRowHeight(28);
         tbCard.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -261,6 +265,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        btnFinesReceipt.setText("Fines Receipt");
+        btnFinesReceipt.setEnabled(false);
+        btnFinesReceipt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFinesReceiptActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnCardLayout = new javax.swing.GroupLayout(pnCard);
         pnCard.setLayout(pnCardLayout);
         pnCardLayout.setHorizontalGroup(
@@ -276,12 +288,14 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(btnReturn)
                         .addGap(18, 18, 18)
                         .addComponent(btnRecordLost)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnFinesReceipt)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        pnCardLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnCreate, btnRecordLost, btnRent, btnReturn});
+        pnCardLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnCreate, btnFinesReceipt, btnRecordLost, btnRent, btnReturn});
 
         pnCardLayout.setVerticalGroup(
             pnCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -293,11 +307,64 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(btnCreate)
                     .addComponent(btnRent)
                     .addComponent(btnReturn)
-                    .addComponent(btnRecordLost))
+                    .addComponent(btnRecordLost)
+                    .addComponent(btnFinesReceipt))
                 .addContainerGap())
         );
 
-        tpnMain.addTab("Library Card", pnCard);
+        pnStaff.addTab("Library Card", pnCard);
+
+        tbStaff.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        tbStaff.setIntercellSpacing(new java.awt.Dimension(10, 0));
+        tbStaff.setRowHeight(28);
+        tbStaff.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane2.setViewportView(tbStaff);
+        if (tbStaff.getColumnModel().getColumnCount() > 0) {
+            tbStaff.getColumnModel().getColumn(0).setMinWidth(50);
+            tbStaff.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tbStaff.getColumnModel().getColumn(1).setMinWidth(150);
+            tbStaff.getColumnModel().getColumn(1).setPreferredWidth(150);
+            tbStaff.getColumnModel().getColumn(2).setMinWidth(50);
+            tbStaff.getColumnModel().getColumn(2).setPreferredWidth(50);
+            tbStaff.getColumnModel().getColumn(3).setMinWidth(75);
+            tbStaff.getColumnModel().getColumn(3).setPreferredWidth(75);
+            tbStaff.getColumnModel().getColumn(4).setMinWidth(200);
+            tbStaff.getColumnModel().getColumn(4).setPreferredWidth(200);
+            tbStaff.getColumnModel().getColumn(5).setMinWidth(200);
+            tbStaff.getColumnModel().getColumn(5).setPreferredWidth(200);
+            tbStaff.getColumnModel().getColumn(6).setMinWidth(75);
+            tbStaff.getColumnModel().getColumn(6).setPreferredWidth(75);
+            tbStaff.getColumnModel().getColumn(7).setMinWidth(75);
+            tbStaff.getColumnModel().getColumn(7).setPreferredWidth(75);
+            tbStaff.getColumnModel().getColumn(8).setMinWidth(100);
+            tbStaff.getColumnModel().getColumn(8).setPreferredWidth(100);
+        }
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                .addGap(56, 56, 56))
+        );
+
+        pnStaff.addTab("Staff", jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -306,7 +373,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tpnMain)
+                    .addComponent(pnStaff)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pnInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -320,9 +387,9 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pnInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnBanner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tpnMain)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnStaff)
+                .addGap(12, 12, 12))
         );
 
         pack();
@@ -333,16 +400,19 @@ public class MainFrame extends javax.swing.JFrame {
         dialog.setVisible(true);
     }//GEN-LAST:event_btnImportActionPerformed
 
-    private void tpnMainStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tpnMainStateChanged
-        switch(tpnMain.getSelectedIndex()){
+    private void pnStaffStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_pnStaffStateChanged
+        switch(pnStaff.getSelectedIndex()){
             case 0:
                 setupBookTable();
                 break;
             case 1:
                 setupCardTable();
                 break;
+            case 2:
+                setupStaffTable();
+                break;
         }
-    }//GEN-LAST:event_tpnMainStateChanged
+    }//GEN-LAST:event_pnStaffStateChanged
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         JDialog dialog = new CreateCardDialog(this, true);
@@ -352,25 +422,25 @@ public class MainFrame extends javax.swing.JFrame {
     private void btnRentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRentActionPerformed
         // Determine which card being selected
         int selectedRowIndex = tbCard.getSelectedRow();
-        LibraryCard card = ((CardTableModel)tbCard.getModel()).getData(selectedRowIndex);
+        selectedCard = ((CardTableModel)tbCard.getModel()).getData(selectedRowIndex);
         
-        JDialog dialog = new RentBookDialog(this, true, card);
+        JDialog dialog = new RentBookDialog(this, true, selectedCard);
         dialog.setVisible(true);
     }//GEN-LAST:event_btnRentActionPerformed
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
         int selectedRowIndex = tbCard.getSelectedRow();
-        LibraryCard card = ((CardTableModel)tbCard.getModel()).getData(selectedRowIndex);
+        selectedCard = ((CardTableModel)tbCard.getModel()).getData(selectedRowIndex);
         
-        JDialog dialog = new ReturnBookDialog(this, true, card);
+        JDialog dialog = new ReturnBookDialog(this, true, selectedCard);
         dialog.setVisible(true);
     }//GEN-LAST:event_btnReturnActionPerformed
 
     private void btnRecordLostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecordLostActionPerformed
         int selectedRowIndex = tbCard.getSelectedRow();
-        LibraryCard card = ((CardTableModel)tbCard.getModel()).getData(selectedRowIndex);
+        selectedCard = ((CardTableModel)tbCard.getModel()).getData(selectedRowIndex);
         
-        JDialog dialog = new RecordLostDialog(this, true, card);
+        JDialog dialog = new RecordLostDialog(this, true, selectedCard);
         dialog.setVisible(true);
     }//GEN-LAST:event_btnRecordLostActionPerformed
 
@@ -378,6 +448,22 @@ public class MainFrame extends javax.swing.JFrame {
         JDialog dialog = new RecordLiquidateDialog(this, true);
         dialog.setVisible(true);
     }//GEN-LAST:event_btnRecordLiquidateActionPerformed
+
+    private void btnFinesReceiptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinesReceiptActionPerformed
+        int selectedRowIndex = tbCard.getSelectedRow();
+        selectedCard = ((CardTableModel)tbCard.getModel()).getData(selectedRowIndex);
+        
+        if(selectedCard.getFinesFee() <= 0){
+            JOptionPane.showMessageDialog(this, 
+                        "This card don't have fines fee",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        JDialog dialog = new FinesReceiptDialog(this, true, selectedCard);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_btnFinesReceiptActionPerformed
 
     /**
      * @param args the command line arguments
@@ -417,12 +503,15 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreate;
+    private javax.swing.JButton btnFinesReceipt;
     private javax.swing.JButton btnImport;
     private javax.swing.JButton btnRecordLiquidate;
     private javax.swing.JButton btnRecordLost;
     private javax.swing.JButton btnRent;
     private javax.swing.JButton btnReturn;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbAvatar;
     private javax.swing.JLabel lbBanner;
     private javax.swing.JLabel lbDivision;
@@ -431,10 +520,11 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel pnBook;
     private javax.swing.JPanel pnCard;
     private javax.swing.JPanel pnInfo;
+    private javax.swing.JTabbedPane pnStaff;
     private javax.swing.JScrollPane spnBook;
     private javax.swing.JTable tbBook;
     private javax.swing.JTable tbCard;
-    private javax.swing.JTabbedPane tpnMain;
+    private javax.swing.JTable tbStaff;
     // End of variables declaration//GEN-END:variables
 
     private void setupComponents() {
@@ -474,6 +564,9 @@ public class MainFrame extends javax.swing.JFrame {
                 case Staff.Division.BAN_GIAM_DOC:
                     division = "Ban giám đốc";
                     break;
+                case Staff.Division.ADMIN:
+                    division = "Admin";
+                    break;
             }
             
             lbName.setText("Hello " + name);
@@ -487,9 +580,7 @@ public class MainFrame extends javax.swing.JFrame {
         bookTableModel.setData(books);
         bookTableModel.setJFrame(this);
         tbBook.setModel(bookTableModel);
-        
-        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(tbBook.getModel());
-        tbBook.setRowSorter(sorter);
+        tbBook.setAutoCreateRowSorter(false);
         
         if (tbBook.getColumnModel().getColumnCount() > 0) {
             tbBook.getColumnModel().getColumn(0).setMinWidth(50);
@@ -527,10 +618,8 @@ public class MainFrame extends javax.swing.JFrame {
         CardTableModel cardTableModel = new CardTableModel();
         cardTableModel.setData(cards);
         cardTableModel.setJFrame(this);
-        tbCard.setModel(cardTableModel);
-        
-        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(tbCard.getModel());
-        tbCard.setRowSorter(sorter);
+        tbCard.setModel(cardTableModel);      
+        tbCard.setAutoCreateRowSorter(false);
         
         if (tbCard.getColumnModel().getColumnCount() > 0) {
             tbCard.getColumnModel().getColumn(0).setMinWidth(50);
@@ -572,20 +661,87 @@ public class MainFrame extends javax.swing.JFrame {
         tbCard.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
             @Override
             public void valueChanged(ListSelectionEvent e) {
+        
                 if(tbCard.getSelectionModel().isSelectionEmpty()){
                     btnRent.setEnabled(false);
                     btnReturn.setEnabled(false);
                     btnRecordLost.setEnabled(false);
+                    btnFinesReceipt.setEnabled(false);
                 } else {
-                    if(CurrentStaff.getCurrentStaff().getDivision() == Staff.Division.THU_QUY){
+                    if(CurrentStaff.getCurrentStaff().getDivision() == Staff.Division.THU_THU){
                         btnRecordLost.setEnabled(true);
                     } else{
                         btnRecordLost.setEnabled(false);
+                    }                    
+                    if(CurrentStaff.getCurrentStaff().getDivision() == Staff.Division.THU_QUY){
+                        btnFinesReceipt.setEnabled(true);
                     }
                 btnRent.setEnabled(true);
                 btnReturn.setEnabled(true);
                 }
             }         
         });
+    }
+    
+    public void setupStaffTable() {
+        List<Staff> staffs = BusStaff.getInstance().findAllStaff();
+        StaffTableModel staffTableModel = new StaffTableModel();
+        staffTableModel.setData(staffs);
+        staffTableModel.setJFrame(this);
+        tbStaff.setModel(staffTableModel);
+        tbStaff.setAutoCreateRowSorter(false);
+
+        if (tbStaff.getColumnModel().getColumnCount() > 0) {
+            tbStaff.getColumnModel().getColumn(0).setMinWidth(50);
+            tbStaff.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tbStaff.getColumnModel().getColumn(1).setMinWidth(150);
+            tbStaff.getColumnModel().getColumn(1).setPreferredWidth(150);
+            tbStaff.getColumnModel().getColumn(2).setMinWidth(150);
+            tbStaff.getColumnModel().getColumn(2).setPreferredWidth(150);
+            tbStaff.getColumnModel().getColumn(3).setMinWidth(75);
+            tbStaff.getColumnModel().getColumn(3).setPreferredWidth(75);
+            tbStaff.getColumnModel().getColumn(4).setMinWidth(50);
+            tbStaff.getColumnModel().getColumn(4).setPreferredWidth(50);
+            tbStaff.getColumnModel().getColumn(5).setMinWidth(50);
+            tbStaff.getColumnModel().getColumn(5).setPreferredWidth(50);
+            tbStaff.getColumnModel().getColumn(6).setMinWidth(50);
+            tbStaff.getColumnModel().getColumn(6).setPreferredWidth(50);
+            tbStaff.getColumnModel().getColumn(7).setMinWidth(150);
+            tbStaff.getColumnModel().getColumn(7).setPreferredWidth(150);
+            tbStaff.getColumnModel().getColumn(8).setMinWidth(100);
+            tbStaff.getColumnModel().getColumn(8).setPreferredWidth(100);
+        }
+   
+        TableColumnModel tableColumnModel = tbStaff.getColumnModel();
+        
+        tableColumnModel.getColumn(3).setCellRenderer(new DateRenderer());
+        tableColumnModel.getColumn(3).setCellEditor(new BoundDateTableEditor(BoundDateTableEditor.TYPE_STAFF_DOB));   
+        
+        TableColumn diplomaCol = tbStaff.getColumnModel().getColumn(4);
+        JComboBox comboBox = new JComboBox();
+        comboBox.addItem("Cao Đẳng");
+        comboBox.addItem("Đại Học");
+        comboBox.addItem("Thạc Sĩ");
+        comboBox.addItem("Tiến Sĩ");
+        comboBox.addItem("Trung Cấp");
+        comboBox.addItem("Tú Tài");
+        diplomaCol.setCellEditor(new DefaultCellEditor(comboBox));
+        
+        TableColumn positionCol = tbStaff.getColumnModel().getColumn(5);
+        comboBox = new JComboBox();
+        comboBox.addItem("Giám Đốc");
+        comboBox.addItem("Nhân Viên");
+        comboBox.addItem("Phó Giám Đốc");
+        comboBox.addItem("Phó Phòng");
+        comboBox.addItem("Trưởng Phòng");
+        positionCol.setCellEditor(new DefaultCellEditor(comboBox));
+     
+        TableColumn divisionCol = tbStaff.getColumnModel().getColumn(6);
+        comboBox = new JComboBox();
+        comboBox.addItem("Ban Giám Đốc");
+        comboBox.addItem("Thủ Kho");
+        comboBox.addItem("Thủ Quỹ");
+        comboBox.addItem("Thủ Thư");
+        divisionCol.setCellEditor(new DefaultCellEditor(comboBox));
     }
 }

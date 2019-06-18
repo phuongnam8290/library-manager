@@ -348,8 +348,9 @@ public class ImportDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
-        String title = "";
-        //String title = tfTitle.getText();
+        String title = (String)cbTitle.getSelectedItem();
+        title = (title != null) ? title : "";
+        
         String author = tfAuthor.getText();
         long price = (Integer)snPrice.getValue();
         String publisher = tfPublisher.getText();
@@ -366,6 +367,14 @@ public class ImportDialog extends javax.swing.JDialog {
             case "C":
                 type = Book.Type.C;
                 break;
+        }
+        
+        if(title.trim().isEmpty() || author.trim().isEmpty() || publisher.trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, 
+                        "Please enter all information before commit.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            return;
         }
         
         int result = BusBook.getInstance().importBook(title, type, author, publishYear, publisher, price, copies);
@@ -393,67 +402,70 @@ public class ImportDialog extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_btnOKActionPerformed
 
+    
+    
     private void tfAuthorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfAuthorKeyReleased
-        FormVerifier.verifyInput(btnOK, tfAuthor.getText(), lbErrAuthor, "Author");
+        //FormVerifier.verifyInput(btnOK, tfAuthor.getText(), lbErrAuthor, "Author");
     }//GEN-LAST:event_tfAuthorKeyReleased
 
     private void lbErrTitlePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_lbErrTitlePropertyChange
-        List<String> errMessages = new ArrayList<>();
-        errMessages.add(lbErrTitle.getText());
-        errMessages.add(lbErrAuthor.getText());
-        errMessages.add(lbErrPublisher.getText());
-        btnOK.setEnabled(FormVerifier.enableBtnConfirm(errMessages));
+//        List<String> errMessages = new ArrayList<>();
+//        errMessages.add(lbErrTitle.getText());
+//        errMessages.add(lbErrAuthor.getText());
+//        errMessages.add(lbErrPublisher.getText());
+//        btnOK.setEnabled(FormVerifier.enableBtnConfirm(errMessages));
     }//GEN-LAST:event_lbErrTitlePropertyChange
 
     private void lbErrAuthorPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_lbErrAuthorPropertyChange
-        List<String> errMessages = new ArrayList<>();
-        errMessages.add(lbErrTitle.getText());
-        errMessages.add(lbErrAuthor.getText());
-        errMessages.add(lbErrPublisher.getText());
-        btnOK.setEnabled(FormVerifier.enableBtnConfirm(errMessages));
+//        List<String> errMessages = new ArrayList<>();
+//        //errMessages.add(lbErrTitle.getText());
+//        errMessages.add(lbErrAuthor.getText());
+//        errMessages.add(lbErrPublisher.getText());
+//        btnOK.setEnabled(FormVerifier.enableBtnConfirm(errMessages));
     }//GEN-LAST:event_lbErrAuthorPropertyChange
 
     private void lbErrPublisherPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_lbErrPublisherPropertyChange
-        List<String> errMessages = new ArrayList<>();
-        errMessages.add(lbErrTitle.getText());
-        errMessages.add(lbErrAuthor.getText());
-        errMessages.add(lbErrPublisher.getText());
-        btnOK.setEnabled(FormVerifier.enableBtnConfirm(errMessages));
+//        List<String> errMessages = new ArrayList<>();
+//        //errMessages.add(lbErrTitle.getText());
+//        errMessages.add(lbErrAuthor.getText());
+//        errMessages.add(lbErrPublisher.getText());
+//        btnOK.setEnabled(FormVerifier.enableBtnConfirm(errMessages));
     }//GEN-LAST:event_lbErrPublisherPropertyChange
 
     private void tfPublisherKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfPublisherKeyReleased
-        FormVerifier.verifyInput(btnOK, tfPublisher.getText(), lbErrPublisher, "Publisher");
+        //FormVerifier.verifyInput(btnOK, tfPublisher.getText(), lbErrPublisher, "Publisher");
     }//GEN-LAST:event_tfPublisherKeyReleased
 
     private void cbTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTitleActionPerformed
+        System.out.println("cbTitleActionPerformed");
         JComboBox cb = (JComboBox)evt.getSource();
         String title = (String)cb.getSelectedItem();
         for (Book book : books){
             if(book.getTitle().equals(title)){
                 tfAuthor.setEnabled(false);
-                tfPublisher.setEnabled(false);               
+                tfPublisher.setEnabled(false);
                 snPrice.setEnabled(false);
                 snYear.setEnabled(false);
                 btnOK.setEnabled(true);
-                
+
                 tfAuthor.setText(book.getAuthor());
                 tfPublisher.setText(book.getPublisher());
                 snPrice.setValue(Integer.valueOf((int)book.getPrice()));
                 snYear.setValue(book.getPublishYear());
-                
+
                 lbErrTitle.setText("");
                 lbErrAuthor.setText("");
                 lbErrPublisher.setText("");
                 return;
             }
         }
-        
+
         tfAuthor.setEnabled(true);
-        tfPublisher.setEnabled(true);               
+        tfPublisher.setEnabled(true);
         snPrice.setEnabled(true);
         snYear.setEnabled(true);
-        btnOK.setEnabled(false);
-        
+        //btnOK.setEnabled(false);
+
         tfAuthor.setText("");
         tfPublisher.setText("");
         snPrice.setValue(Integer.valueOf(5000));
@@ -538,7 +550,7 @@ public class ImportDialog extends javax.swing.JDialog {
     private void setupComponents(){
         setTitle("Import book");
         setLocationRelativeTo(null);
-        btnOK.setEnabled(false);
+        //btnOK.setEnabled(false);
                 
         // Set data for cbTitle
         for(Book book : books){
@@ -550,8 +562,8 @@ public class ImportDialog extends javax.swing.JDialog {
         // Verify text enter to cbTitle
         JTextComponent editor = (JTextComponent) cbTitle.getEditor().getEditorComponent();
         editor.addKeyListener(new KeyAdapter() {
-            public void keyReleased(KeyEvent evt) {          
-               FormVerifier.verifyInput(btnOK, editor.getText(), lbErrTitle, "Title");
+            public void keyReleased(KeyEvent evt) {      
+               //FormVerifier.verifyInput(btnOK, editor.getText(), lbErrTitle, "Title");
             }
          });
         

@@ -80,9 +80,9 @@ public class RecordLiquidateDialog extends javax.swing.JDialog {
 
         lbLiquidateDate.setText("Liquidate Date");
 
-        tfStaff.setEnabled(false);
+        tfStaff.setEditable(false);
 
-        tfLiquidateDate.setEnabled(false);
+        tfLiquidateDate.setEditable(false);
 
         javax.swing.GroupLayout pnInfoLayout = new javax.swing.GroupLayout(pnInfo);
         pnInfo.setLayout(pnInfoLayout);
@@ -291,7 +291,7 @@ public class RecordLiquidateDialog extends javax.swing.JDialog {
                         JOptionPane.INFORMATION_MESSAGE);
         }
         
-        ((MainFrame)parent).setupCardTable();
+        ((MainFrame)parent).setupBookTable();
         dispose();
     }//GEN-LAST:event_btnOKActionPerformed
 

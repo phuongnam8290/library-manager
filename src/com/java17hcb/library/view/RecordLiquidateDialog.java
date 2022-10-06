@@ -320,7 +320,7 @@ public class RecordLiquidateDialog extends javax.swing.JDialog {
         
         // Set rent date
         Date lostedDate = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         tfLiquidateDate.setText(dateFormat.format(lostedDate));
         
         // Set combobox data

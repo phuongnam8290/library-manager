@@ -318,7 +318,7 @@ public class RentBookDialog extends javax.swing.JDialog {
         
         // Set rent date
         Date rentDate = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         tfRentDate.setText(dateFormat.format(rentDate));
         
         // Check card's rent status

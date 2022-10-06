@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="LIQUIDATE_HISTORY")
+@Table(name="liquidate_history")
 public class LiquidateHistory {
     public static class Reason{
         public static final int LOSTED = 0;

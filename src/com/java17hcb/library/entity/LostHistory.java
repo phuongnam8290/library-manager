@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="LOST_HISTORY")
+@Table(name="lost_history")
 public class LostHistory {
     @ManyToOne
     @JoinColumn(name="BOOK_ID")

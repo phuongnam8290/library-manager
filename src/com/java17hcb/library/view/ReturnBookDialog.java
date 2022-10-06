@@ -271,7 +271,7 @@ public class ReturnBookDialog extends javax.swing.JDialog {
         
         // Set rent date
         Date rentDate = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         tfReturnDate.setText(dateFormat.format(rentDate));
         
         

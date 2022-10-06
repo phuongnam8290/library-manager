@@ -326,7 +326,7 @@ public class RecordLostDialog extends javax.swing.JDialog {
         
         // Set rent date
         Date lostedDate = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         tfLostedDate.setText(dateFormat.format(lostedDate));
         
         // Set spinner fine fee model
